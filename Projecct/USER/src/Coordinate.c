@@ -46,6 +46,43 @@ void Y_Coordinate(void)
     }
 }
 
+/*坐标指令：由当前坐标指向目的坐标，优先执行X轴坐标指令，
+坐标指令返回布尔值以确定是否执行完毕，便于判断是否执行下一指令，
+在中断中始终执行坐标指令函数，读取当前坐标位置，与目的坐标位置比较，
+再未到达指定位置之前，始终执行Track循迹函数，如果到X轴达目的地，则停止
+动作，进行Y轴动作，直到到达目的地，返回完成状态*/
+char Coordinate_Command(float X_Destination, float Y_Destination)
+{
+    if (X_Position != X_Destination) //X轴坐标命令
+    {
+        if (X_Destination > X_Position)
+        {
+            Track('X', '+', False);
+        }
+        else if (X_Destination < X_Position)
+        {
+            Track('X', '-', False);
+        }
+    }
+    else if (Y_Destination != Y_Position) //Y轴坐标命令
+    {
+        if (Y_Destination > Y_Position)
+        {
+            Track('Y', '+', False);
+        }
+        else if (Y_Destination < Y_Position)
+        {
+            Track('Y', '-', False);
+        }
+    }
+
+    //命令是否完成判断
+    if (X_Position == X_Destination && Y_Position == Y_Destination)
+        return True;
+    else
+        return False;
+}
+
 //坐标记录测试
 void Coordinate_Test(void)
 {

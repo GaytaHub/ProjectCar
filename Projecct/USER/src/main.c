@@ -8,42 +8,51 @@
 // #define SensorTset
 // #define CoordinateTest
 // #define CameraTest
+// #define CoordinateCommandTest
 
 int main(void)
 {
     get_clk();
-    
+
 #ifdef MotorTest
     Motor_Test();
 #endif
-    
+
 #ifdef SteeringTest
     Steering_Test();
 #endif
-    
+
 #ifdef EncoderTest
     Encoder_Test();
 #endif
-    
+
 #ifdef SensorTset
     GraySensor_Tset();
 #endif
-    
+
 #ifdef CoordinateTest
     Coordinate_Test();
 #endif
-    
+
 #ifdef CameraTest
     Camera_Test();
 #endif
-    
+
 #ifdef TrackTest
     Motor_Init();
     Encoder_Init();
     Camera_Init();
     pit_init_ms(pit0, 10);
 #endif
-    
+
+#ifdef CoordinateCommandTest
+    pit_init_ms(pit0, 10);
+    //重置初始起点
+    X_Position = 1;
+    Y_Position = 1;
+    Coordinate_Test();
+#endif
+
     for (;;)
     {
         ;
@@ -60,6 +69,10 @@ void PIT0_IRQHandler(void)
     // Track('Y', '+', False);
     // Track('Y', '-', False);
 #endif
+
+#ifdef CoordinateCommandTest
+    Coordinate_Command(3, 4);
+#endif
 }
 
 //PORTC中断标志位清除
@@ -69,7 +82,7 @@ void PORTC_IRQHandler(void)
     //PORTC->ISFR = 0xffffffff;
     //使用我们编写的宏定义清除发生中断的引脚
     //PORTC_FLAG_CLR(C1);
-    
+
     //此中断的标志位在ov7725_vsync中清除，因此不需要再这里清除
     ov7725_vsync();
 }
@@ -77,5 +90,5 @@ void PORTC_IRQHandler(void)
 //DMA0中断清除
 void DMA0_IRQHandler(void)
 {
-    DMA_IRQ_CLEAN(DMA_CH0);	
+    DMA_IRQ_CLEAN(DMA_CH0);
 }
