@@ -7,7 +7,7 @@
 // #define TrackTest
 // #define SensorTset
 // #define CoordinateTest
-#define CameraTest
+// #define CameraTest
 
 int main(void)
 {
