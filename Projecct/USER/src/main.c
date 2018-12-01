@@ -9,6 +9,7 @@
 // #define CoordinateTest
 // #define CameraTest
 
+//test2
 int main(void)
 {
     get_clk();
