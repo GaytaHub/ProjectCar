@@ -1,13 +1,13 @@
 #include "headfile.h"
 
 //Unit Test//
-#define  MotorTest
-#define  SteeringTest
-#define  EncoderTest
-#define TrackTest
-#define SensorTset
-#define CoordinateTest
-#define CameraTest
+// #define  MotorTest
+// #define  SteeringTest
+// #define  EncoderTest
+// #define TrackTest
+// #define SensorTset
+// #define CoordinateTest
+// #define CameraTest
 
 int main(void)
 {
