@@ -424,7 +424,7 @@
                     <item>image_dec</item>
                     <item>Angle_Offset_X</item>
                     <item>Angle_Offset_Y</item>
-                    <item></item>
+                    <item />
                 </expressions>
                 <col-names>
                     <item>Expression</item>

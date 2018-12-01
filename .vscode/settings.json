@@ -11,7 +11,14 @@
         "ov7725.h": "c",
         "misc.h": "c",
         "common.h": "c",
-        "mk60dn10_port_cfg.h": "c"
+        "mk60dn10_port_cfg.h": "c",
+        "coordinate.h": "c",
+        "parameter.h": "c",
+        "pid.h": "c",
+        "encoder.h": "c",
+        "motor.h": "c",
+        "steering.h": "c",
+        "track.h": "c"
     },
     "C_Cpp.intelliSenseEngineFallback": "Disabled",
     "C_Cpp.dimInactiveRegions": true

@@ -1,7 +1,7 @@
 #include "headfile.h"
 
 //Unit Test
-//#define DirectionTset
+#define DirectionTset
 
 #ifndef DirectionTset
  #define SpeedTest
@@ -10,7 +10,6 @@
 #endif
 
 //循迹函数
-int16 X_Speed_Real, Y_Speed_Real; //车体实际速度
 void Track(char Axis, char Dir, char Reset)
 {
         float X_Offset, Y_Offset, Angle_Offset; //偏差
@@ -28,6 +27,7 @@ void Track(char Axis, char Dir, char Reset)
         X_Speed_Real = +LF_W - RF_W + LB_W - RB_W;
         Y_Speed_Real = -LF_W - RF_W + LB_W + RB_W;
 
+        //速度（方向）正负设定
         if (Dir == '+')
         {
                 X_Speed_Set = +X_Speed;
@@ -40,11 +40,11 @@ void Track(char Axis, char Dir, char Reset)
         }
 
         Image_Decompression(image_bin, image_dec[0]); //摄像头图像解压
-        if (Axis == 'X')                              //沿X轴循迹
+
+        if (Axis == 'X') //沿X轴循迹
         {
                 Y_Offset = Offset_Get('Y', OV7725_H / 2);
                 Angle_Offset = Angle_Get('X');
-
 #ifdef SpeedTest
                 X_Speed_PWM = X_Speed_PID(X_Speed_Set, X_Speed_Real, Reset);
 #endif
@@ -59,7 +59,6 @@ void Track(char Axis, char Dir, char Reset)
         {
                 X_Offset = Offset_Get('X', OV7725_W / 2);
                 Angle_Offset = Angle_Get('Y');
-
 #ifdef SpeedTest
                 Y_Speed_PWM = Y_Speed_PID(Y_Speed_Set, Y_Speed_Real, Reset);
 #endif
