@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "headfile.h": "c",
+        "mk60d10.h": "c",
+        "core_cm4.h": "c",
+        "ff.h": "c",
+        "mk60dn10_cmt.h": "c",
+        "mk60dn10_sdhc.h": "c",
+        "seekfree_mma8451.h": "c",
+        "seekfree_mpu6050.h": "c",
+        "ov7725.h": "c",
+        "misc.h": "c",
+        "common.h": "c",
+        "mk60dn10_port_cfg.h": "c"
+    },
+    "C_Cpp.intelliSenseEngineFallback": "Disabled",
+    "C_Cpp.dimInactiveRegions": true
+}

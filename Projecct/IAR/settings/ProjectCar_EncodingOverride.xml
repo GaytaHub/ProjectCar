@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<userOverrides>
+    <override>
+        <path>D:\ProjectCar\2thProject\ProjectCar\Libraries\drives\inc\headfile.h</path>
+        <encoding>UTF-8</encoding>
+    </override>
+    <override>
+        <path>D:\ProjectCar\2thProject\ProjectCar\Libraries\drives\src\MK60DN10_dma.c</path>
+        <encoding>UTF-8</encoding>
+    </override>
+    <override>
+        <path>D:\ProjectCar\2thProject\ProjectCar\Projecct\USER\inc\isr.h</path>
+        <encoding>UTF-8</encoding>
+    </override>
+    <override>
+        <path>D:\ProjectCar\2thProject\ProjectCar\Projecct\USER\src\Encoder.c</path>
+        <encoding>UTF-8</encoding>
+    </override>
+    <override>
+        <path>D:\ProjectCar\2thProject\ProjectCar\Projecct\USER\src\Motor.c</path>
+        <encoding>UTF-8</encoding>
+    </override>
+    <override>
+        <path>D:\工程能力\第二版\ProjectCar\Libraries\drives\src\MK60DN10_ftm.c</path>
+        <encoding>System</encoding>
+    </override>
+    <override>
+        <path>D:\工程能力\第二版\ProjectCar\Projecct\USER\src\main.c</path>
+        <encoding>UTF-8</encoding>
+    </override>
+</userOverrides>
