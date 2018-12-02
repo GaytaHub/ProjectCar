@@ -1,9 +1,6 @@
 #include "headfile.h"
 
-#define LF_Dir gpio_get(A14)
-#define RF_Dir gpio_get(A15)
-#define LB_Dir gpio_get(A16)
-#define RB_Dir gpio_get(A17)
+
 
 //编码器初始化
 void Encoder_Init(void)
@@ -13,7 +10,7 @@ void Encoder_Init(void)
     DMA_count_Init(DMA_CH1, B1, 0x7FFF, DMA_falling_keepon);
     DMA_count_Init(DMA_CH3, D0, 0x7FFF, DMA_falling_keepon);
     DMA_count_Init(DMA_CH4, E2, 0x7FFF, DMA_falling_keepon);
-
+    
     //编码器方向接口
     gpio_init(A14, GPI, 0);
     gpio_init(A15, GPI, 0);
@@ -73,7 +70,7 @@ int16 LB_Encoder_Get(void)
 int16 RB_Encoder_Get(void)
 {
     int16 Pulse = 0;
-    if (RB_Dir)
+    if (gpio_get(A17))
     {
         Pulse = DMA_count_get(DMA_CH4);
     }
@@ -87,15 +84,24 @@ int16 RB_Encoder_Get(void)
 
 //编码器测试
 int16 Pulse0, Pulse1, Pulse2, Pulse3;
+int8 Dir0, Dir1, Dir2, Dir3;
 void Encoder_Test(void)
 {
     Encoder_Init();
+    pit_init_ms(pit0, 10);
+    set_irq_priority(PIT0_IRQn,2);						//设置优先级,根据自己的需求设置
+    enable_irq(PIT0_IRQn);								//打开pit0的中断开关
+    EnableInterrupts;
     for (;;)
     {
+        Dir0 = LF_Dir;
+        Dir1 = RF_Dir;
+        Dir2 = LB_Dir;
+        Dir3 = RB_Dir;
         Pulse0 = LF_Encoder_Get();
         Pulse1 = RF_Encoder_Get();
         Pulse2 = LB_Encoder_Get();
         Pulse3 = RB_Encoder_Get();
-        systick_delay_ms(1000);
+        systick_delay_ms(10);
     }
 }

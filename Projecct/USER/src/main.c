@@ -1,9 +1,9 @@
 #include "headfile.h"
 
 //Unit Test//
-// #define  MotorTest
+ #define  MotorTest
 // #define  SteeringTest
-// #define  EncoderTest
+//#define EncoderTest   编码器脉冲读取测试通过，方向读取电平无法拉低，直接接地可拉低
 // #define TrackTest
 // #define SensorTset
 // #define CoordinateTest
@@ -13,46 +13,52 @@
 int main(void)
 {
     get_clk();
-
+    
 #ifdef MotorTest
     Motor_Test();
 #endif
-
+    
 #ifdef SteeringTest
     Steering_Test();
 #endif
-
+    
 #ifdef EncoderTest
     Encoder_Test();
 #endif
-
+    
 #ifdef SensorTset
     GraySensor_Tset();
 #endif
-
+    
 #ifdef CoordinateTest
     Coordinate_Test();
 #endif
-
+    
 #ifdef CameraTest
     Camera_Test();
 #endif
-
+    
 #ifdef TrackTest
     Motor_Init();
     Encoder_Init();
     Camera_Init();
     pit_init_ms(pit0, 10);
+    set_irq_priority(PIT0_IRQn, 2); //设置优先级,根据自己的需求设置
+    enable_irq(PIT0_IRQn);          //打开pit0的中断开关
+    EnableInterrupts;
 #endif
-
+    
 #ifdef CoordinateCommandTest
     pit_init_ms(pit0, 10);
+    set_irq_priority(PIT0_IRQn, 2); //设置优先级,根据自己的需求设置
+    enable_irq(PIT0_IRQn);          //打开pit0的中断开关
+    EnableInterrupts;
     //重置初始起点
     X_Position = 1;
     Y_Position = 1;
     Coordinate_Test();
 #endif
-
+    
     for (;;)
     {
         ;
@@ -69,10 +75,29 @@ void PIT0_IRQHandler(void)
     // Track('Y', '+', False);
     // Track('Y', '-', False);
 #endif
-
+    
 #ifdef CoordinateCommandTest
     Coordinate_Command(3, 4);
 #endif
+    // static int16 Command = 0;
+    // switch(Command)
+    // {
+    //     case 0:
+    //     {
+    //         ;
+    //         Command ++;
+    //     }break;
+    //     case 1:
+    //     {
+    //         ;
+    //         Command ++;
+    //     }break;
+    //     case 2:
+    //     {
+    //         ;
+    //         Command ++;
+    //     }
+    // }
 }
 
 //PORTC中断标志位清除
@@ -82,7 +107,7 @@ void PORTC_IRQHandler(void)
     //PORTC->ISFR = 0xffffffff;
     //使用我们编写的宏定义清除发生中断的引脚
     //PORTC_FLAG_CLR(C1);
-
+    
     //此中断的标志位在ov7725_vsync中清除，因此不需要再这里清除
     ov7725_vsync();
 }
