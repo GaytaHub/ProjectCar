@@ -1,5 +1,6 @@
 #ifndef _Motor_h
 #define _Motor_h
+#include "headfile.h"
 
 
 void Motor_Init(void);

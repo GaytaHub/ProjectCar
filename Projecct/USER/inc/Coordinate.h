@@ -1,5 +1,6 @@
 #ifndef _Coordinate_h
 #define _Coordinate_h
+#include "headfile.h"
 
 extern void X_Coordinate(void);
 extern void Y_Coordinate(void);

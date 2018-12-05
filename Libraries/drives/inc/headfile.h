@@ -73,6 +73,7 @@
 #include "Coordinate.h"
 #include "GraySensor.h"
 #include "Camera.h"
+#include "Debug.h"
 
 //PID结构体结构
 struct Data

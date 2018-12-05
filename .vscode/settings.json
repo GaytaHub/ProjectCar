@@ -18,7 +18,9 @@
         "encoder.h": "c",
         "motor.h": "c",
         "steering.h": "c",
-        "track.h": "c"
+        "track.h": "c",
+        "graysensor_binary.h": "c",
+        "debug.h": "c"
     },
     "C_Cpp.intelliSenseEngineFallback": "Disabled",
     "C_Cpp.dimInactiveRegions": true

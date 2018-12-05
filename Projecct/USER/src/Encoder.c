@@ -1,13 +1,17 @@
 #include "headfile.h"
 
-
+//编码器方向读取接口
+#define LF_Dir gpio_get(A14)
+#define RF_Dir gpio_get(A15)
+#define LB_Dir gpio_get(A16)
+#define RB_Dir gpio_get(A17)
 
 //编码器初始化
 void Encoder_Init(void)
 {
     //编码器脉冲接口
     DMA_count_Init(DMA_CH0, A5, 0x7FFF, DMA_falling_keepon);
-    DMA_count_Init(DMA_CH1, B1, 0x7FFF, DMA_falling_keepon);
+    DMA_count_Init(DMA_CH1, B10, 0x7FFF, DMA_falling_keepon);
     DMA_count_Init(DMA_CH3, D0, 0x7FFF, DMA_falling_keepon);
     DMA_count_Init(DMA_CH4, E2, 0x7FFF, DMA_falling_keepon);
     

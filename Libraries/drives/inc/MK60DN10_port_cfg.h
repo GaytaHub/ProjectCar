@@ -50,7 +50,7 @@
 
 //      模块通道        端口      可选范围                建议
 #define FTM0_CH0_PIN    C1        //C1、A3                A3不要用（与Jtag、SWD冲突）
-#define FTM0_CH1_PIN    A4        //C2、A4    
+#define FTM0_CH1_PIN    C2        //C2、A4    
 #define FTM0_CH2_PIN    C3        //C3、A5    
 #define FTM0_CH3_PIN    C4        //C4、A6    
 #define FTM0_CH4_PIN    D4        //D4、A7    

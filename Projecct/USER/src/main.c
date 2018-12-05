@@ -1,13 +1,13 @@
 #include "headfile.h"
 
 //Unit Test//
- #define  MotorTest
+#define  MotorTest
 // #define  SteeringTest
-//#define EncoderTest   编码器脉冲读取测试通过，方向读取电平无法拉低，直接接地可拉低
+//#define EncoderTest  
 // #define TrackTest
 // #define SensorTset
 // #define CoordinateTest
-// #define CameraTest
+//  #define CameraTest
 // #define CoordinateCommandTest
 
 int main(void)
@@ -61,7 +61,7 @@ int main(void)
     
     for (;;)
     {
-        ;
+ ;
     }
 }
 

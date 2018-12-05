@@ -1,5 +1,6 @@
 #ifndef _GraySensor_h
 #define _GraySensor_h
+#include "headfile.h"
 
 extern void GraySensor_Init(void);
 extern uint8 Gray_Sensor1_Read(void);
