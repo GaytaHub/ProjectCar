@@ -11,41 +11,41 @@ void Steering_Init(void)
     cmt_pwm_init(50, 750);
 }
 
-#define Steering_Min 250
-#define Steering_Max 1250
+#define SteeringMin 250
+#define SteeringMax 1250
 
 //一号舵机限幅输出
 void SteeringOne_Control(uint16 duty)
 {
-    duty = (uint16)limit_ab(duty, Steering_Min, Steering_Max);
+    duty = (uint16)limit_ab(duty, SteeringMin, SteeringMax);
     ftm_pwm_duty(ftm1, ftm_ch0, duty);
 }
 
 //二号舵机限幅输出
 void SteeringTwo_Control(uint16 duty)
 {
-    duty = (uint16)limit_ab(duty, Steering_Min, Steering_Max);
+    duty = (uint16)limit_ab(duty, SteeringMin, SteeringMax);
     ftm_pwm_duty(ftm1, ftm_ch1, duty);
 }
 
 //三号舵机限幅输出
 void SteeringThree_Control(uint16 duty)
 {
-    duty = (uint16)limit_ab(duty, Steering_Min, Steering_Max);
+    duty = (uint16)limit_ab(duty, SteeringMin, SteeringMax);
     ftm_pwm_duty(ftm2, ftm_ch0, duty);
 }
 
 //四号舵机限幅输出
 void SteeringFour_Control(uint16 duty)
 {
-    duty = (uint16)limit_ab(duty, Steering_Min, Steering_Max);
+    duty = (uint16)limit_ab(duty, SteeringMin, SteeringMax);
     ftm_pwm_duty(ftm2, ftm_ch1, duty);
 }
 
 //五号舵机限幅输出
 void SteeringFive_Control(uint16 duty)
 {
-    duty = (uint16)limit_ab(duty, Steering_Min, Steering_Max);
+    duty = (uint16)limit_ab(duty, SteeringMin, SteeringMax);
     cmt_pwm_duty(duty);
 }
 

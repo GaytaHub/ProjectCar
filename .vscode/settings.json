@@ -20,7 +20,19 @@
         "steering.h": "c",
         "track.h": "c",
         "graysensor_binary.h": "c",
-        "debug.h": "c"
+        "debug.h": "c",
+        "mk60dn10_ftm.h": "c",
+        "rule.h": "c",
+        "seekfree_7725.h": "c",
+        "mk60dn10_lptmr.h": "c",
+        "seekfree_nrf24l01.h": "c",
+        "isr.h": "c",
+        "mk60dn10_gpio.h": "c",
+        "mk60dn10_dma.h": "c",
+        "mk60dn10_pit.h": "c",
+        "mk60dn10_uart.h": "c",
+        "define.h": "c",
+        "camera.h": "c"
     },
     "C_Cpp.intelliSenseEngineFallback": "Disabled",
     "C_Cpp.dimInactiveRegions": true

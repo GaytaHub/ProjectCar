@@ -1,13 +1,12 @@
-#ifndef _GraySensor_h
-#define _GraySensor_h
-#include "headfile.h"
+#ifndef GraySensor_h
+#define GraySensor_h
 
 extern void GraySensor_Init(void);
-extern uint8 Gray_Sensor1_Read(void);
-extern uint8 Gray_Sensor2_Read(void);
-extern uint8 Gray_Sensor3_Read(void);
-extern uint8 Gray_Sensor4_Read(void);
-extern int8 Sensor_Trigger(void);
+extern unsigned char Gray_Sensor1_Read(void);
+extern unsigned char Gray_Sensor2_Read(void);
+extern unsigned char Gray_Sensor3_Read(void);
+extern unsigned char Gray_Sensor4_Read(void);
+extern char Sensor_Trigger(void);
 extern void GraySensor_Tset(void);
 
 #endif

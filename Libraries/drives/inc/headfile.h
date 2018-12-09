@@ -21,6 +21,19 @@
 #ifndef _headfile_h
 #define _headfile_h
 
+//用户头文件
+#include "Camera.h"
+#include "Coordinate.h"
+#include "Debug.h"
+#include "Encoder.h"
+#include "Global.h"
+#include "GraySensor.h"
+#include "Motor.h"
+#include "Steering.h"
+#include "Track.h"
+#include "PID.h"
+
+
 #include "MK60D10.h"
 #include "MK60DN10_port_cfg.h"
 #include "common.h"
@@ -63,30 +76,5 @@
 #include "SEEKFREE_MMA8451.h"
 #include "SEEKFREE_MPU6050.h"
 
-//用户头文件
-#include "Motor.h"
-#include "Steering.h"
-#include "Encoder.h"
-#include "PID.h"
-#include "Parameter.h"
-#include "Track.h"
-#include "Coordinate.h"
-#include "GraySensor.h"
-#include "Camera.h"
-#include "Debug.h"
-
-//PID结构体结构
-struct Data
-{
-    float P; //比例项
-    float I; //积分项
-    float D; //微分项
-};
-
-#define True 1
-#define False 0
-
-#define White 1
-#define Black 0
 
 #endif

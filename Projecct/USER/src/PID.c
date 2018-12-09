@@ -20,26 +20,26 @@ X-: LF——逆时针(+) RF——逆时针(+) LB——顺时针(-) RB——顺�
 A+: 全为顺时针(-)
 A-: 全为逆时针(+)
 由此车体速度可表示为(正值表示与坐标系正方向同向)：
-Y_Speed_Real = LF_W_Real - RF_W_Real + LB_W_Real - RB_W_Real
-X_Speed_Real = -LF_W_Real - RF_W_Real + LB_W_Real + RB_W_Real*/
+YSpeedReal = LF_W_Real - RF_W_Real + LB_W_Real - RB_W_Real
+XSpeedReal = -LF_W_Real - RF_W_Real + LB_W_Real + RB_W_Real*/
 
 /*偏差 即车体X、Y轴到黑线的垂直距离：
-(X_Offset:Y轴在黑线右侧为正，需沿X-移动消除偏差，Y_Offset:X轴在黑线左侧为正,需沿Y-移动消除偏差，设定值为0)
-——> X_Offset ——> X_Offset_PWM = PID(X_Offset)
-——> Y_Offset ——> Y_Offset_PWM = PID(Y_Offset)*/
+(X_Error:Y轴在黑线右侧为正，需沿X-移动消除偏差，Y_Error:X轴在黑线左侧为正,需沿Y-移动消除偏差，设定值为0)
+——> X_Error ——> X_Error_PWM = PID(X_Error)
+——> Y_Error ——> Y_Error_PWM = PID(Y_Error)*/
 /*角度 即车体X、Y轴与黑线的夹角(从X、Y轴转动到黑线得到的夹角，逆时针为正，需沿顺时针旋转消除偏差，设定值为0) 
-——> A_Offset ——> A_PWM = PID(A_Offset)*/
+——> A_Error ——> A_PWM = PID(A_Error)*/
 /*X、Y轴速度 即车体沿X、Y轴的移动速度(车体沿X、Y轴正方向行驶为正，设定值为某一固定的正值) 
-——> X_Speed_Offset = X_Speed_Set - X_Speed_Real ——> X_Speed_PWM = PID(X_Offset)
-——> Y_Speed_Offset = Y_Speed_Set - Y_Speed_Real ——> Y_Speed_PWM = PID(Y_Offset)*/
+——> X_Speed_Error = X_Speed_Set - XSpeedReal ——> X_Speed_PWM = PID(X_Error)
+——> Y_Speed_Error = Y_Speed_Set - YSpeedReal ——> Y_Speed_PWM = PID(Y_Error)*/
 /*车轮转速 即单位时间编码器脉冲数(设定值由前三者自然得出，前三者闭环即可闭环这一环节)*/
 /*PWM为正值时使W为正*/
 
 /*沿X、Y轴方向行驶叠加：
-LF_PWM = - X_Speed_PWM - Y_Offset_PWM + Y_Speed_PWM + X_Offset_PWM - A_PWM
-RF_PWM = - X_Speed_PWM + Y_Offset_PWM - Y_Speed_PWM + X_Offset_PWM - A_PWM
-LB_PWM = + X_Speed_PWM - Y_Offset_PWM + Y_Speed_PWM - X_Offset_PWM - A_PWM
-RB_PWM = + X_Speed_PWM + Y_Offset_PWM - Y_Speed_PWM - X_Offset_PWM - A_PWM*/
+LF_PWM = - X_Speed_PWM - Y_Error_PWM + Y_Speed_PWM + X_Error_PWM - A_PWM
+RF_PWM = - X_Speed_PWM + Y_Error_PWM - Y_Speed_PWM + X_Error_PWM - A_PWM
+LB_PWM = + X_Speed_PWM - Y_Error_PWM + Y_Speed_PWM - X_Error_PWM - A_PWM
+RB_PWM = + X_Speed_PWM + Y_Error_PWM - Y_Speed_PWM - X_Error_PWM - A_PWM*/
 
 //摄像头视野偏差提取：
 /*摄像头看向全局坐标系的X轴正方向*/
@@ -49,87 +49,87 @@ RB_PWM = + X_Speed_PWM + Y_Offset_PWM - Y_Speed_PWM - X_Offset_PWM - A_PWM*/
 得到的角，逆时针为正*/
 
 //X轴偏差控制PID  
-extern struct Data Offset_Para; 
-int16 X_Offset_PD(float Offset, char Reset) {
-    static float Last_Offset = 0.0; 
+extern struct Data ErrorPara; 
+int16 X_Error_PD(float Error, char Reset) {
+    static float LastError = 0.0; 
     float Result; 
     
     if (Reset == True) {
         Result = 0; 
-        Last_Offset = 0; 
+        LastError = 0; 
     }
     else if (Reset == False) {
-        Result = Offset_Para.P * Offset + Offset_Para.D * (Offset - Last_Offset);
-        Last_Offset = Offset;
+        Result = ErrorPara.P * Error + ErrorPara.D * (Error - LastError);
+        LastError = Error;
     }   
     
     return (int16)Result; 
 }
 
 //Y轴偏差控制
-int16 Y_Offset_PD(float Offset, char Reset) {
-    static float Last_Offset = 0.0; 
+int16 Y_Error_PD(float Error, char Reset) {
+    static float LastError = 0.0; 
     float Result; 
     
     if (Reset == True) {
         Result = 0; 
-        Last_Offset = 0; 
+        LastError = 0; 
     }
     else if (Reset == False) {
-        Result = Offset_Para.P * Offset + Offset_Para.D * (Offset - Last_Offset);
-        Last_Offset = Offset;
+        Result = ErrorPara.P * Error + ErrorPara.D * (Error - LastError);
+        LastError = Error;
     }   
     
     return (int16)Result; 
 }
 
 //角度控制PID
-extern struct Data Angle_Para; 
-int16 Angle_PD(float Angle_Offset, char Reset) {
-    static float Angle_Last_Offset = 0.0; 
+extern struct Data AnglePara; 
+int16 Angle_PD(float AngleError, char Reset) {
+    static float AngleLastError = 0.0; 
     float Result; 
     
     if (Reset == True) {
         Result = 0; 
-        Angle_Last_Offset = 0; 
+        AngleLastError = 0; 
     }
     else if (Reset == False) {
-        Result = Angle_Para.P * Angle_Offset + Angle_Para.D * (Angle_Offset - Angle_Last_Offset); 
-        Angle_Last_Offset = Angle_Offset; 
+        Result = AnglePara.P * AngleError + AnglePara.D * (AngleError - AngleLastError); 
+        AngleLastError = AngleError; 
     }
     
     return (int16)Result; 
 }
 
 //X轴速度控制PID
-extern struct Data Speed_Para; 
-#define I_Range 20      //积分范围
-#define All_I_Range 5   //全积分范围
+extern struct Data SpeedPara; 
+#define IntegralRange 20      //积分范围
+#define AllIntegralRange 5   //全积分范围
 int16 X_Speed_PID(float Set, float Real, char Reset) {
     float index = 1.0; 
-    float NewOffset, Result; 
-    static float Last_Offset = 0.0, I_Value = 0.0; 
+    float NewError, Result; 
+    static float LastError = 0.0, Integral = 0.0; 
     
-    NewOffset = Set - Real; 
+    NewError = Set - Real; 
     if (Reset == False) {
-        if (myabs(NewOffset > I_Range)) {
+        if (myabs(NewError > IntegralRange)) {
             index = 0.0; 
         }
-        else if (myabs(NewOffset < All_I_Range)) {
+        else if (myabs(NewError < AllIntegralRange)) {
             index = 1.0; 
-            I_Value += NewOffset; 
+            Integral += NewError; 
         }
         else {
-            index = (I_Range - myabs(NewOffset))/(I_Range - All_I_Range); 
-            I_Value += NewOffset; 
+            index = (IntegralRange - myabs(NewError))/(IntegralRange - AllIntegralRange); 
+            Integral += NewError; 
         }
-        Result = Speed_Para.P * NewOffset + Speed_Para.I * index * I_Value + Speed_Para.D * (NewOffset - Last_Offset); 
-        Last_Offset = NewOffset;        
+        Result = SpeedPara.P * NewError + SpeedPara.I * index * Integral + SpeedPara.D * (NewError - LastError); 
+        LastError = NewError;        
     }
     else if (Reset == True) {
         Result = 0; 
-        I_Value = 0.0; 
-        Last_Offset = 0.0; 
+        Integral = 0.0; 
+        LastError = 0.0; 
     }
     
     return (int16)Result; 
@@ -138,29 +138,29 @@ int16 X_Speed_PID(float Set, float Real, char Reset) {
 //Y轴速度控制
 int16 Y_Speed_PID(float Set, float Real, char Reset) {
     float index = 1.0; 
-    float NewOffset, Result; 
-    static float Last_Offset = 0.0, I_Value = 0.0; 
+    float NewError, Result; 
+    static float LastError = 0.0, Integral = 0.0; 
     
-    NewOffset = Set - Real; 
+    NewError = Set - Real; 
     if (Reset == False) {
-        if (myabs(NewOffset > I_Range)) {
+        if (myabs(NewError > IntegralRange)) {
             index = 0.0; 
         }
-        else if (myabs(NewOffset < All_I_Range)) {
+        else if (myabs(NewError < AllIntegralRange)) {
             index = 1.0; 
-            I_Value += NewOffset; 
+            Integral += NewError; 
         }
         else {
-            index = (I_Range - myabs(NewOffset))/(I_Range - All_I_Range); 
-            I_Value += NewOffset; 
+            index = (IntegralRange - myabs(NewError))/(IntegralRange - AllIntegralRange); 
+            Integral += NewError; 
         }
-        Result = Speed_Para.P * NewOffset + Speed_Para.I * index * I_Value + Speed_Para.D * (NewOffset - Last_Offset); 
-        Last_Offset = NewOffset;        
+        Result = SpeedPara.P * NewError + SpeedPara.I * index * Integral + SpeedPara.D * (NewError - LastError); 
+        LastError = NewError;        
     }
     else if (Reset == True) {
         Result = 0; 
-        I_Value = 0.0; 
-        Last_Offset = 0.0; 
+        Integral = 0.0; 
+        LastError = 0.0; 
     }
     
     return (int16)Result; 

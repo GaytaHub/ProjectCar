@@ -1,10 +1,10 @@
 #include "headfile.h"
 
 //编码器方向读取接口
-#define LF_Dir gpio_get(A14)
-#define RF_Dir gpio_get(A15)
-#define LB_Dir gpio_get(A16)
-#define RB_Dir gpio_get(A17)
+#define LFDirection gpio_get(A14)
+#define RFDirection gpio_get(A15)
+#define LBDirection gpio_get(A16)
+#define RBDirection gpio_get(A17)
 
 //编码器初始化
 void Encoder_Init(void)
@@ -26,7 +26,7 @@ void Encoder_Init(void)
 int16 LF_Encoder_Get(void)
 {
     int16 Pulse = 0;
-    if (LF_Dir)
+    if (LFDirection)
     {
         Pulse = DMA_count_get(DMA_CH0);
     }
@@ -42,7 +42,7 @@ int16 LF_Encoder_Get(void)
 int16 RF_Encoder_Get(void)
 {
     int16 Pulse = 0;
-    if (RF_Dir)
+    if (RFDirection)
     {
         Pulse = DMA_count_get(DMA_CH1);
     }
@@ -58,7 +58,7 @@ int16 RF_Encoder_Get(void)
 int16 LB_Encoder_Get(void)
 {
     int16 Pulse = 0;
-    if (LB_Dir)
+    if (LBDirection)
     {
         Pulse = DMA_count_get(DMA_CH3);
     }
@@ -98,10 +98,10 @@ void Encoder_Test(void)
     EnableInterrupts;
     for (;;)
     {
-        Dir0 = LF_Dir;
-        Dir1 = RF_Dir;
-        Dir2 = LB_Dir;
-        Dir3 = RB_Dir;
+        Dir0 = LFDirection;
+        Dir1 = RFDirection;
+        Dir2 = LBDirection;
+        Dir3 = RBDirection;
         Pulse0 = LF_Encoder_Get();
         Pulse1 = RF_Encoder_Get();
         Pulse2 = LB_Encoder_Get();

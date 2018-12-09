@@ -1,14 +1,15 @@
 #include "headfile.h"
 
+
 //Unit Test//
 #define  MotorTest
-// #define  SteeringTest
-//#define EncoderTest  
-// #define TrackTest
-// #define SensorTset
-// #define CoordinateTest
-//  #define CameraTest
-// #define CoordinateCommandTest
+#define  SteeringTest
+#define EncoderTest  
+#define TrackTest
+#define SensorTset
+#define CoordinateTest
+ #define CameraTest
+#define CoordinateCommandTest
 
 int main(void)
 {
@@ -54,8 +55,8 @@ int main(void)
     enable_irq(PIT0_IRQn);          //打开pit0的中断开关
     EnableInterrupts;
     //重置初始起点
-    X_Position = 1;
-    Y_Position = 1;
+    XPosition = 1;
+    YPosition = 1;
     Coordinate_Test();
 #endif
     

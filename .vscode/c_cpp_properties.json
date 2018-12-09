@@ -371,8 +371,8 @@
                 "__EDG_FLOAT80_ENABLING_POSSIBLE =0",
                 "__EDG_FLOAT128_ENABLING_POSSIBLE =0",
                 "_DLIB_FILE_DESCRIPTOR =1",
-                "_DLIB_CONFIG_FILE_HEADER_NAME =\"D:\\\\IAR\\\\arm\\\\inc\\\\c\\\\DLib_Config_Normal.h\"",
-                "_DLIB_CONFIG_FILE_STRING =\"D:\\\\IAR\\\\arm\\\\inc\\\\c\\\\DLib_Config_Normal.h\"",
+                "_DLIB_CONFIG_FILE_HEADER_NAME =\"D:\\\\IAR\\\\arm\\\\inc\\\\c\\\\DLib_Config_Full.h\"",
+                "_DLIB_CONFIG_FILE_STRING =\"D:\\\\IAR\\\\arm\\\\inc\\\\c\\\\DLib_Config_Full.h\"",
                 "__VERSION__ =\"IAR ANSI C/C++ Compiler V8.32.1.169/W32 for ARM\""
             ]
         }

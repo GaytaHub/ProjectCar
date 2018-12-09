@@ -1,7 +1,5 @@
-#ifndef _Debug_h
-#define _Debug_h
-
-#include "headfile.h"
+#ifndef Debug_h
+#define Debug_h
 
 void Debug_Init(void);
 

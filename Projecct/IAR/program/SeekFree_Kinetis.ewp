@@ -1272,10 +1272,10 @@
             <name>$PROJ_DIR$\..\..\USER\src\Coordinate.c</name>
         </file>
         <file>
-            <name>$PROJ_DIR$\..\..\USER\src\main.c</name>
+            <name>$PROJ_DIR$\..\..\USER\src\Global.c</name>
         </file>
         <file>
-            <name>$PROJ_DIR$\..\..\USER\src\Parameter.c</name>
+            <name>$PROJ_DIR$\..\..\USER\src\main.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\USER\src\PID.c</name>
@@ -1293,6 +1293,9 @@
             <name>$PROJ_DIR$\..\..\USER\inc\Coordinate.h</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\..\USER\inc\Global.h</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\USER\inc\GraySensor.h</name>
         </file>
         <file>
@@ -1306,9 +1309,6 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\USER\src\Motor.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\USER\inc\Parameter.h</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\USER\inc\PID.h</name>

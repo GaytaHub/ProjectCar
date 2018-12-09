@@ -6,4 +6,5 @@ void Debug_Init(void)
     uart_init(uart0, 115200);
 }
 
-//串口数据读取
+//字符串读取
+

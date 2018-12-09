@@ -20,10 +20,10 @@ void X_Coordinate(void)
         } while (Sensor_Trigger() == 0);
 
         //判断速度方向以判断坐标加减
-        if (X_Speed_Real > 0)
-            X_Position += 0.5;
-        else if (X_Speed_Real < 0)
-            X_Position -= 0.5;
+        if (XSpeedReal > 0)
+            XPosition += 0.5;
+        else if (XSpeedReal < 0)
+            XPosition -= 0.5;
     }
 }
 
@@ -39,10 +39,10 @@ void Y_Coordinate(void)
         } while (Sensor_Trigger() == 0);
 
         //判断速度方向以判断坐标加减
-        if (Y_Speed_Real > 0)
-            Y_Position += 0.5;
-        else if (Y_Speed_Real < 0)
-            Y_Position -= 0.5;
+        if (YSpeedReal > 0)
+            YPosition += 0.5;
+        else if (YSpeedReal < 0)
+            YPosition -= 0.5;
     }
 }
 
@@ -51,33 +51,33 @@ void Y_Coordinate(void)
 在中断中始终执行坐标指令函数，读取当前坐标位置，与目的坐标位置比较，
 再未到达指定位置之前，始终执行Track循迹函数，如果到X轴达目的地，则停止
 动作，进行Y轴动作，直到到达目的地，返回完成状态*/
-char Coordinate_Command(float X_Destination, float Y_Destination)
+char Coordinate_Command(float XDestination, float YDestination)
 {
-    if (X_Position != X_Destination) //X轴坐标命令
+    if (XPosition != XDestination) //X轴坐标命令
     {
-        if (X_Destination > X_Position)
+        if (XDestination > XPosition)
         {
             Track('X', '+', False);
         }
-        else if (X_Destination < X_Position)
+        else if (XDestination < XPosition)
         {
             Track('X', '-', False);
         }
     }
-    else if (Y_Destination != Y_Position) //Y轴坐标命令
+    else if (YDestination != YPosition) //Y轴坐标命令
     {
-        if (Y_Destination > Y_Position)
+        if (YDestination > YPosition)
         {
             Track('Y', '+', False);
         }
-        else if (Y_Destination < Y_Position)
+        else if (YDestination < YPosition)
         {
             Track('Y', '-', False);
         }
     }
 
     //命令是否完成判断
-    if (X_Position == X_Destination && Y_Position == Y_Destination)
+    if (XPosition == XDestination && YPosition == YDestination)
         return True;
     else
         return False;

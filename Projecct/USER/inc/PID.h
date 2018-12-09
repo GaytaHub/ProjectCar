@@ -1,10 +1,10 @@
-#ifndef _PID_h
-#define _PID_h
+#ifndef PID_h
+#define PID_h
 
-extern int16 X_Offset_PD(float Offset, char Reset);
-extern int16 Y_Offset_PD(float Offset, char Reset);
-extern int16 Angle_PD(float Angle_Offset, char Reset);
-extern int16 X_Speed_PID(float Set, float Real, char Reset);
-extern int16 Y_Speed_PID(float Set, float Real, char Reset);
+extern short int X_Error_PD(float Error, char Reset);
+extern short int Y_Error_PD(float Error, char Reset);
+extern short int Angle_PD(float AngleError, char Reset);
+extern short int X_Speed_PID(float Set, float Real, char Reset);
+extern short int Y_Speed_PID(float Set, float Real, char Reset);
 
 #endif
