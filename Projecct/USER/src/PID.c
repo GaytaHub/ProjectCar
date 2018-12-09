@@ -48,120 +48,139 @@ RB_PWM = + X_Speed_PWM + Y_Error_PWM - Y_Speed_PWM - X_Error_PWM - A_PWM*/
 逆时针为正；摄像头视野水平中线，在与Y轴平行的黑线上方时，偏差为正，从中线旋转到黑线
 得到的角，逆时针为正*/
 
-//X轴偏差控制PID  
-extern struct Data ErrorPara; 
-int16 X_Error_PD(float Error, char Reset) {
-    static float LastError = 0.0; 
-    float Result; 
-    
-    if (Reset == True) {
-        Result = 0; 
-        LastError = 0; 
+//X轴偏差控制PID
+int16 X_Error_PD(float Error, char Reset)
+{
+    static float LastError = 0.0;
+    float Result;
+
+    if (Reset == True)
+    {
+        Result = 0;
+        LastError = 0;
     }
-    else if (Reset == False) {
+    else if (Reset == False)
+    {
         Result = ErrorPara.P * Error + ErrorPara.D * (Error - LastError);
         LastError = Error;
-    }   
-    
-    return (int16)Result; 
+    }
+
+    return (int16)Result;
 }
 
 //Y轴偏差控制
-int16 Y_Error_PD(float Error, char Reset) {
-    static float LastError = 0.0; 
-    float Result; 
-    
-    if (Reset == True) {
-        Result = 0; 
-        LastError = 0; 
+int16 Y_Error_PD(float Error, char Reset)
+{
+    static float LastError = 0.0;
+    float Result;
+
+    if (Reset == True)
+    {
+        Result = 0;
+        LastError = 0;
     }
-    else if (Reset == False) {
+    else if (Reset == False)
+    {
         Result = ErrorPara.P * Error + ErrorPara.D * (Error - LastError);
         LastError = Error;
-    }   
-    
-    return (int16)Result; 
+    }
+
+    return (int16)Result;
 }
 
 //角度控制PID
-extern struct Data AnglePara; 
-int16 Angle_PD(float AngleError, char Reset) {
-    static float AngleLastError = 0.0; 
-    float Result; 
-    
-    if (Reset == True) {
-        Result = 0; 
-        AngleLastError = 0; 
+int16 Angle_PD(float AngleError, char Reset)
+{
+    static float AngleLastError = 0.0;
+    float Result;
+
+    if (Reset == True)
+    {
+        Result = 0;
+        AngleLastError = 0;
     }
-    else if (Reset == False) {
-        Result = AnglePara.P * AngleError + AnglePara.D * (AngleError - AngleLastError); 
-        AngleLastError = AngleError; 
+    else if (Reset == False)
+    {
+        Result = AnglePara.P * AngleError + AnglePara.D * (AngleError - AngleLastError);
+        AngleLastError = AngleError;
     }
-    
-    return (int16)Result; 
+
+    return (int16)Result;
 }
 
 //X轴速度控制PID
-extern struct Data SpeedPara; 
-#define IntegralRange 20      //积分范围
-#define AllIntegralRange 5   //全积分范围
-int16 X_Speed_PID(float Set, float Real, char Reset) {
-    float index = 1.0; 
-    float NewError, Result; 
-    static float LastError = 0.0, Integral = 0.0; 
-    
-    NewError = Set - Real; 
-    if (Reset == False) {
-        if (myabs(NewError > IntegralRange)) {
-            index = 0.0; 
+#define IntegralRange 20   //积分范围
+#define AllIntegralRange 5 //全积分范围
+
+int16 X_Speed_PID(float Set, float Real, char Reset)
+{
+    float index = 1.0;
+    float NewError, Result;
+    static float LastError = 0.0, Integral = 0.0;
+
+    NewError = Set - Real;
+    if (Reset == False)
+    {
+        if (myabs(NewError > IntegralRange))
+        {
+            index = 0.0;
         }
-        else if (myabs(NewError < AllIntegralRange)) {
-            index = 1.0; 
-            Integral += NewError; 
+        else if (myabs(NewError < AllIntegralRange))
+        {
+            index = 1.0;
+            Integral += NewError;
         }
-        else {
-            index = (IntegralRange - myabs(NewError))/(IntegralRange - AllIntegralRange); 
-            Integral += NewError; 
+        else
+        {
+            index = (IntegralRange - myabs(NewError)) / (IntegralRange - AllIntegralRange);
+            Integral += NewError;
         }
-        Result = SpeedPara.P * NewError + SpeedPara.I * index * Integral + SpeedPara.D * (NewError - LastError); 
-        LastError = NewError;        
+        Result = SpeedPara.P * NewError + SpeedPara.I * index * Integral + SpeedPara.D * (NewError - LastError);
+        LastError = NewError;
     }
-    else if (Reset == True) {
-        Result = 0; 
-        Integral = 0.0; 
-        LastError = 0.0; 
+    else if (Reset == True)
+    {
+        Result = 0;
+        Integral = 0.0;
+        LastError = 0.0;
     }
-    
-    return (int16)Result; 
+
+    return (int16)Result;
 }
 
 //Y轴速度控制
-int16 Y_Speed_PID(float Set, float Real, char Reset) {
-    float index = 1.0; 
-    float NewError, Result; 
-    static float LastError = 0.0, Integral = 0.0; 
-    
-    NewError = Set - Real; 
-    if (Reset == False) {
-        if (myabs(NewError > IntegralRange)) {
-            index = 0.0; 
+int16 Y_Speed_PID(float Set, float Real, char Reset)
+{
+    float index = 1.0;
+    float NewError, Result;
+    static float LastError = 0.0, Integral = 0.0;
+
+    NewError = Set - Real;
+    if (Reset == False)
+    {
+        if (myabs(NewError > IntegralRange))
+        {
+            index = 0.0;
         }
-        else if (myabs(NewError < AllIntegralRange)) {
-            index = 1.0; 
-            Integral += NewError; 
+        else if (myabs(NewError < AllIntegralRange))
+        {
+            index = 1.0;
+            Integral += NewError;
         }
-        else {
-            index = (IntegralRange - myabs(NewError))/(IntegralRange - AllIntegralRange); 
-            Integral += NewError; 
+        else
+        {
+            index = (IntegralRange - myabs(NewError)) / (IntegralRange - AllIntegralRange);
+            Integral += NewError;
         }
-        Result = SpeedPara.P * NewError + SpeedPara.I * index * Integral + SpeedPara.D * (NewError - LastError); 
-        LastError = NewError;        
+        Result = SpeedPara.P * NewError + SpeedPara.I * index * Integral + SpeedPara.D * (NewError - LastError);
+        LastError = NewError;
     }
-    else if (Reset == True) {
-        Result = 0; 
-        Integral = 0.0; 
-        LastError = 0.0; 
+    else if (Reset == True)
+    {
+        Result = 0;
+        Integral = 0.0;
+        LastError = 0.0;
     }
-    
-    return (int16)Result; 
+
+    return (int16)Result;
 }

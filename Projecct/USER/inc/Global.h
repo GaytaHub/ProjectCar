@@ -1,5 +1,5 @@
 #ifndef Global_h
-#define Global_h 
+#define Global_h
 
 //PID结构体结构
 struct Data
@@ -9,11 +9,21 @@ struct Data
     float D; //微分项
 };
 
-#define True 1
-#define False 0
+extern struct Data ErrorPara;
+extern struct Data AnglePara; 
+extern struct Data SpeedPara;
 
-#define White 1
-#define Black 0
+enum
+{
+    False,
+    True
+};
+
+enum
+{
+    Black,
+    White
+};
 
 extern short int XSpeed, YSpeed;
 extern short int XSpeedReal, YSpeedReal;

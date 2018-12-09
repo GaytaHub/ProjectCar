@@ -3,7 +3,7 @@
 //摄像头初始化
 void Camera_Init(void)
 {
-   ov7725_Hinit();
+   ov7725_init();
 }
 
 //提取位移偏差,对齐线默认为 OV7725_H / 2, OV7725_W /2;
