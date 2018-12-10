@@ -1308,13 +1308,13 @@
             <name>$PROJ_DIR$\..\..\..\Libraries\drives\inc\MK60DN10_port_cfg.h</name>
         </file>
         <file>
-            <name>$PROJ_DIR$\..\..\USER\src\Motor.h</name>
+            <name>$PROJ_DIR$\..\..\USER\inc\Motor.h</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\USER\inc\PID.h</name>
         </file>
         <file>
-            <name>$PROJ_DIR$\..\..\USER\src\Steering.h</name>
+            <name>$PROJ_DIR$\..\..\USER\inc\Steering.h</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\USER\inc\Track.h</name>

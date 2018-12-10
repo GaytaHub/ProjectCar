@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.32.1.169/W32 for ARM                  09/Dec/2018  19:06:12
+# IAR ELF Linker V8.32.1.169/W32 for ARM                  10/Dec/2018  20:32:51
 # Copyright 2007-2018 IAR Systems AB.
 #
 #    Output file  =  
@@ -8,7 +8,7 @@
 #    Map file     =  
 #        D:\ProjectCar\2thProject\ProjectCar\Projecct\IAR\program\MK60_Debug\List\SeekFree_Kinetis.map
 #    Command line =  
-#        -f C:\Users\Xu\AppData\Local\Temp\EWF91B.tmp
+#        -f C:\Users\Xu\AppData\Local\Temp\EW6145.tmp
 #        (D:\ProjectCar\2thProject\ProjectCar\Projecct\IAR\program\MK60_Debug\Obj\Camera.o
 #        D:\ProjectCar\2thProject\ProjectCar\Projecct\IAR\program\MK60_Debug\Obj\common.o
 #        D:\ProjectCar\2thProject\ProjectCar\Projecct\IAR\program\MK60_Debug\Obj\Coordinate.o
@@ -105,31 +105,34 @@ No sections matched the following patterns:
   .intvec            ro code          0x0   0x410  startup_MK60D10.o [1]
                                   - 0x410   0x410
 
-"P2":                                       0xc4c
+"P2":                                       0xc40
   .text              ro code        0x410   0x1fc  MK60DN10_ftm.o [1]
   .text              ro code        0x60c    0x98  MK60DN10_port.o [1]
-  .text              ro code        0x6a4   0x1f0  Motor.o [1]
-  .text              ro code        0x894   0x114  MK60DN10_gpio.o [1]
-  .text              ro code        0x9a8    0x24  S32ToFlt.o [3]
-  .text              ro code        0x9cc    0x22  SEEKFREE_FUN.o [1]
-  .text              ro code        0x9ee    0x3a  zero_init3.o [4]
-  .text              ro code        0xa28    0x2a  FltToS32.o [3]
-  .text              ro code        0xa54    0x24  FltCmpLe.o [3]
-  .text              ro code        0xa78   0x1ac  MK60DN10_uart.o [1]
-  .text              ro code        0xc24    0xc2  system_MK60D10.o [1]
-  .text              ro code        0xce8    0x54  common.o [1]
-  .text              ro code        0xd3c    0x38  SEEKFREE_7725.o [1]
-  .text              ro code        0xd74    0x30  main.o [1]
-  .text              ro code        0xda4    0x2c  copy_init3.o [4]
-  .text              ro code        0xdd0    0x28  data_init.o [4]
-  .iar.init_table    const          0xdf8    0x24  - Linker created -
-  .text              ro code        0xe1c    0x1e  cmain.o [4]
-  .text              ro code        0xe3a     0x4  low_level_init.o [2]
-  .text              ro code        0xe3e     0x4  exit.o [2]
-  .text              ro code        0xe44     0xa  cexit.o [4]
-  .text              ro code        0xe50    0x14  exit.o [5]
-  .text              ro code        0xe64    0x10  startup_MK60D10.o [1]
-  .text              ro code        0xe74     0xc  cstartup_M.o [4]
+  .text              ro code        0x6a4   0x1e4  Motor.o [1]
+  .text              ro code        0x888   0x114  MK60DN10_gpio.o [1]
+  .text              ro code        0x99c    0x24  S32ToFlt.o [3]
+  .text              ro code        0x9c0    0x22  SEEKFREE_FUN.o [1]
+  .text              ro code        0x9e2    0x3a  zero_init3.o [4]
+  .text              ro code        0xa1c    0x2a  FltToS32.o [3]
+  .text              ro code        0xa48    0x24  FltCmpLe.o [3]
+  .text              ro code        0xa6c   0x1ac  MK60DN10_uart.o [1]
+  .text              ro code        0xc18    0xc2  system_MK60D10.o [1]
+  .text              ro code        0xcdc    0x54  common.o [1]
+  .text              ro code        0xd30    0x38  SEEKFREE_7725.o [1]
+  .text              ro code        0xd68    0x30  main.o [1]
+  .text              ro code        0xd98    0x2c  copy_init3.o [4]
+  .text              ro code        0xdc4    0x28  data_init.o [4]
+  .iar.init_table    const          0xdec    0x24  - Linker created -
+  .text              ro code        0xe10    0x1e  cmain.o [4]
+  .text              ro code        0xe2e     0x4  low_level_init.o [2]
+  .text              ro code        0xe32     0x4  exit.o [2]
+  .text              ro code        0xe38     0xa  cexit.o [4]
+  .text              ro code        0xe44    0x14  exit.o [5]
+  .text              ro code        0xe58    0x10  startup_MK60D10.o [1]
+  .text              ro code        0xe68     0xc  cstartup_M.o [4]
+  .text              ro code        0xe74     0x4  startup_MK60D10.o [1]
+  .text              ro code        0xe78     0x4  startup_MK60D10.o [1]
+  .text              ro code        0xe7c     0x4  startup_MK60D10.o [1]
   .text              ro code        0xe80     0x4  startup_MK60D10.o [1]
   .text              ro code        0xe84     0x4  startup_MK60D10.o [1]
   .text              ro code        0xe88     0x4  startup_MK60D10.o [1]
@@ -237,13 +240,10 @@ No sections matched the following patterns:
   .text              ro code       0x1020     0x4  startup_MK60D10.o [1]
   .text              ro code       0x1024     0x4  startup_MK60D10.o [1]
   .text              ro code       0x1028     0x4  startup_MK60D10.o [1]
-  .text              ro code       0x102c     0x4  startup_MK60D10.o [1]
-  .text              ro code       0x1030     0x4  startup_MK60D10.o [1]
-  .text              ro code       0x1034     0x4  startup_MK60D10.o [1]
-  .rodata            const         0x1038     0x0  zero_init3.o [4]
-  .rodata            const         0x1038     0x0  copy_init3.o [4]
-  Initializer bytes  const         0x1038    0x24  <for P3 s0>
-                                 - 0x105c   0xc4c
+  .rodata            const         0x102c     0x0  zero_init3.o [4]
+  .rodata            const         0x102c     0x0  copy_init3.o [4]
+  Initializer bytes  const         0x102c    0x24  <for P3 s0>
+                                 - 0x1050   0xc40
 
 "P3", part 1 of 3:                           0x24
   P3 s0                       0x1fff'0000    0x24  <Init block>
@@ -265,7 +265,7 @@ Unused ranges:
 
          From           To      Size
          ----           --      ----
-       0x105c     0x7'ffff  0x7'efa4
+       0x1050     0x7'ffff  0x7'efb0
   0x1fff'0284  0x1fff'0287       0x4
   0x1fff'2288  0x1fff'ffff    0xdd78
   0x2000'0000  0x2000'ffff  0x1'0000
@@ -283,7 +283,7 @@ Zero (__iar_zero_init3)
 
 Copy (__iar_copy_init3)
     1 source range, total size 0x24:
-               0x1038   0x24
+               0x102c   0x24
     1 destination range, total size 0x24:
           0x1fff'0000   0x24
 
@@ -304,7 +304,7 @@ D:\ProjectCar\2thProject\ProjectCar\Projecct\IAR\program\MK60_Debug\Obj: [1]
     MK60DN10_gpio.o        276
     MK60DN10_port.o        152
     MK60DN10_uart.o        428       24       24
-    Motor.o                496
+    Motor.o                484
     SEEKFREE_7725.o         56               600
     SEEKFREE_FUN.o          34
     common.o                84       12       12
@@ -312,7 +312,7 @@ D:\ProjectCar\2thProject\ProjectCar\Projecct\IAR\program\MK60_Debug\Obj: [1]
     startup_MK60D10.o    1 496
     system_MK60D10.o       194
     --------------------------------------------
-    Total:               3 772       36      644
+    Total:               3 760       36      644
 
 dl7M_tlf.a: [2]
     exit.o                   4
@@ -345,7 +345,7 @@ shb_l.a: [5]
     Gaps                     8
     Linker created                   36    8 192
 ------------------------------------------------
-    Grand Total:         4 116       72    8 836
+    Grand Total:         4 104       72    8 836
 
 
 *******************************************************************************
@@ -354,66 +354,66 @@ shb_l.a: [5]
 
 Entry                       Address   Size  Type      Object
 -----                       -------   ----  ----      ------
-.iar.init_table$$Base         0xdf8          --   Gb  - Linker created -
-.iar.init_table$$Limit        0xe1c          --   Gb  - Linker created -
-?main                         0xe1d         Code  Gb  cmain.o [4]
+.iar.init_table$$Base         0xdec          --   Gb  - Linker created -
+.iar.init_table$$Limit        0xe10          --   Gb  - Linker created -
+?main                         0xe11         Code  Gb  cmain.o [4]
 CSTACK$$Base            0x1fff'0288          --   Gb  - Linker created -
 CSTACK$$Limit           0x1fff'2288          --   Gb  - Linker created -
-DMA0_IRQHandler               0xd91    0xc  Code  Gb  main.o [1]
-Disable_Wdog                  0xc25   0x16  Code  Gb  system_MK60D10.o [1]
+DMA0_IRQHandler               0xd85    0xc  Code  Gb  main.o [1]
+Disable_Wdog                  0xc19   0x16  Code  Gb  system_MK60D10.o [1]
 FTMX                          0x600    0xc  Data  Lc  MK60DN10_ftm.o [1]
 FTM_port_mux                  0x411   0xf8  Code  Gb  MK60DN10_ftm.o [1]
-GPIOX                         0x994   0x14  Data  Lc  MK60DN10_gpio.o [1]
+GPIOX                         0x988   0x14  Data  Lc  MK60DN10_gpio.o [1]
 GPIOX                         0x690   0x14  Data  Gb  MK60DN10_port.o [1]
-LB_Motor_Control              0x7c1   0x50  Code  Gb  Motor.o [1]
-LF_Motor_Control              0x721   0x50  Code  Gb  Motor.o [1]
-Motor_Init                    0x6a5   0x7c  Code  Gb  Motor.o [1]
-Motor_Test                    0x86d   0x28  Code  Gb  Motor.o [1]
-NMI_Handler                   0xce5    0x2  Code  Gb  system_MK60D10.o [1]
-PIT0_IRQHandler               0xd81    0xc  Code  Gb  main.o [1]
-PORTC_IRQHandler              0xd8d    0x4  Code  Gb  main.o [1]
-PORTX                         0x980   0x14  Data  Lc  MK60DN10_gpio.o [1]
+LB_Motor_Control              0x7b7   0x50  Code  Gb  Motor.o [1]
+LF_Motor_Control              0x717   0x50  Code  Gb  Motor.o [1]
+Motor_Init                    0x6a5   0x72  Code  Gb  Motor.o [1]
+Motor_Test                    0x861   0x28  Code  Gb  Motor.o [1]
+NMI_Handler                   0xcd9    0x2  Code  Gb  system_MK60D10.o [1]
+PIT0_IRQHandler               0xd75    0xc  Code  Gb  main.o [1]
+PORTC_IRQHandler              0xd81    0x4  Code  Gb  main.o [1]
+PORTX                         0x974   0x14  Data  Lc  MK60DN10_gpio.o [1]
 PORTX                         0x67c   0x14  Data  Gb  MK60DN10_port.o [1]
-RB_Motor_Control              0x811   0x56  Code  Gb  Motor.o [1]
-RF_Motor_Control              0x771   0x50  Code  Gb  Motor.o [1]
-Region$$Table$$Base           0xdf8          --   Gb  - Linker created -
-Region$$Table$$Limit          0xe1c          --   Gb  - Linker created -
-SYSTEM_CLK                    0xc3b   0x80  Code  Gb  system_MK60D10.o [1]
-Start                         0xccd   0x18  Code  Gb  system_MK60D10.o [1]
+RB_Motor_Control              0x807   0x56  Code  Gb  Motor.o [1]
+RF_Motor_Control              0x767   0x50  Code  Gb  Motor.o [1]
+Region$$Table$$Base           0xdec          --   Gb  - Linker created -
+Region$$Table$$Limit          0xe10          --   Gb  - Linker created -
+SYSTEM_CLK                    0xc2f   0x80  Code  Gb  system_MK60D10.o [1]
+Start                         0xcc1   0x18  Code  Gb  system_MK60D10.o [1]
 __Vectors                       0x0          --   Gb  startup_MK60D10.o [1]
 __Vectors_End                 0x400         Data  Gb  startup_MK60D10.o [1]
 __Vectors_Size {Abs}          0x400          --   Gb  startup_MK60D10.o [1]
-__aeabi_cfcmple               0xa55         Code  Gb  FltCmpLe.o [3]
-__aeabi_f2iz                  0xa29         Code  Gb  FltToS32.o [3]
-__aeabi_i2f                   0x9a9         Code  Gb  S32ToFlt.o [3]
-__cmain                       0xe1d         Code  Gb  cmain.o [4]
-__exit                        0xe51   0x14  Code  Gb  exit.o [5]
-__iar_copy_init3              0xda5   0x2c  Code  Gb  copy_init3.o [4]
-__iar_data_init3              0xdd1   0x28  Code  Gb  data_init.o [4]
-__iar_program_start           0xe75         Code  Gb  cstartup_M.o [4]
-__iar_zero_init3              0x9ef   0x3a  Code  Gb  zero_init3.o [4]
-__low_level_init              0xe3b    0x4  Code  Gb  low_level_init.o [2]
+__aeabi_cfcmple               0xa49         Code  Gb  FltCmpLe.o [3]
+__aeabi_f2iz                  0xa1d         Code  Gb  FltToS32.o [3]
+__aeabi_i2f                   0x99d         Code  Gb  S32ToFlt.o [3]
+__cmain                       0xe11         Code  Gb  cmain.o [4]
+__exit                        0xe45   0x14  Code  Gb  exit.o [5]
+__iar_copy_init3              0xd99   0x2c  Code  Gb  copy_init3.o [4]
+__iar_data_init3              0xdc5   0x28  Code  Gb  data_init.o [4]
+__iar_program_start           0xe69         Code  Gb  cstartup_M.o [4]
+__iar_zero_init3              0x9e3   0x3a  Code  Gb  zero_init3.o [4]
+__low_level_init              0xe2f    0x4  Code  Gb  low_level_init.o [2]
 __vector_table                  0x0         Data  Gb  startup_MK60D10.o [1]
-_call_main                    0xe29         Code  Gb  cmain.o [4]
-_exit                         0xe45         Code  Gb  cexit.o [4]
-_main                         0xe37         Code  Gb  cmain.o [4]
+_call_main                    0xe1d         Code  Gb  cmain.o [4]
+_exit                         0xe39         Code  Gb  cexit.o [4]
+_main                         0xe2b         Code  Gb  cmain.o [4]
 bus_clk_mhz             0x1fff'0020    0x4  Data  Gb  common.o [1]
 core_clk_mhz            0x1fff'001c    0x4  Data  Gb  common.o [1]
-exit                          0xe3f    0x4  Code  Gb  exit.o [2]
+exit                          0xe33    0x4  Code  Gb  exit.o [2]
 ftm_pwm_duty                  0x5ad   0x42  Code  Gb  MK60DN10_ftm.o [1]
 ftm_pwm_init                  0x509   0xa2  Code  Gb  MK60DN10_ftm.o [1]
-get_clk                       0xce9   0x54  Code  Gb  common.o [1]
-gpio_init                     0x895   0xaa  Code  Gb  MK60DN10_gpio.o [1]
-gpio_set                      0x945   0x3c  Code  Gb  MK60DN10_gpio.o [1]
+get_clk                       0xcdd   0x54  Code  Gb  common.o [1]
+gpio_init                     0x889   0xaa  Code  Gb  MK60DN10_gpio.o [1]
+gpio_set                      0x939   0x3c  Code  Gb  MK60DN10_gpio.o [1]
 image_bin               0x1fff'0024  0x258  Data  Gb  SEEKFREE_7725.o [1]
-limit                         0x9cd   0x22  Code  Gb  SEEKFREE_FUN.o [1]
-main                          0xd75    0xc  Code  Gb  main.o [1]
+limit                         0x9c1   0x22  Code  Gb  SEEKFREE_FUN.o [1]
+main                          0xd69    0xc  Code  Gb  main.o [1]
 mcgout_clk_mhz          0x1fff'0018    0x4  Data  Gb  common.o [1]
-ov7725_vsync                  0xd3d   0x26  Code  Gb  SEEKFREE_7725.o [1]
+ov7725_vsync                  0xd31   0x26  Code  Gb  SEEKFREE_7725.o [1]
 period                  0x1fff'027c    0x8  Data  Gb  MK60DN10_ftm.o [1]
 port_init                     0x60d   0x6c  Code  Gb  MK60DN10_port.o [1]
 uart                    0x1fff'0000   0x18  Data  Gb  MK60DN10_uart.o [1]
-uart_init                     0xa79  0x198  Code  Gb  MK60DN10_uart.o [1]
+uart_init                     0xa6d  0x198  Code  Gb  MK60DN10_uart.o [1]
 
 
 [1] = D:\ProjectCar\2thProject\ProjectCar\Projecct\IAR\program\MK60_Debug\Obj
@@ -422,7 +422,7 @@ uart_init                     0xa79  0x198  Code  Gb  MK60DN10_uart.o [1]
 [4] = rt7M_tl.a
 [5] = shb_l.a
 
-  4 116 bytes of readonly  code memory
+  4 104 bytes of readonly  code memory
      72 bytes of readonly  data memory
   8 836 bytes of readwrite data memory
 

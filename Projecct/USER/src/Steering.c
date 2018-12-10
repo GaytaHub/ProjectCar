@@ -65,12 +65,12 @@ void Steering_Test(void)
     Steering_Init();
     for (;;)
     {
-        SteeringOne_Control(500);
-        SteeringTwo_Control(500);
-        SteeringThree_Control(500);
-        SteeringFour_Control(500);
-        SteeringFive_Control(500);
-        systick_delay_ms(1000);
+        // SteeringOne_Control(500);
+        // SteeringTwo_Control(500);
+        // SteeringThree_Control(500);
+        // SteeringFour_Control(500);
+        // SteeringFive_Control(500);
+        // systick_delay_ms(1000);
         SteeringAll_Control(1000, 1000, 1000, 1000, 1000);
     }
 }

@@ -12,11 +12,16 @@
 //横坐标记录
 void X_Coordinate(void)
 {
-    if (Sensor_Trigger() == 14 || Sensor_Trigger() == 23)
+    if (Sensor_Trigger() == 14 || Sensor_Trigger() == 23) //触发判断
     {
+        //等待触发结束
         do
         {
-            ; //等待触发结束
+            do
+            {
+                ; //等待触发结束
+            } while (Sensor_Trigger() == 0);
+            systick_delay_ms(10);
         } while (Sensor_Trigger() == 0);
 
         //判断速度方向以判断坐标加减
@@ -33,9 +38,14 @@ void Y_Coordinate(void)
     if (Sensor_Trigger() == 12 || Sensor_Trigger() == 34)
     {
         systick_delay_ms(250); //做长延时以跳过双线中间的白色
+        //等待触发结束
         do
         {
-            ; //等待触发结束
+            do
+            {
+                ; //等待触发结束
+            } while (Sensor_Trigger() == 0);
+            systick_delay_ms(10);
         } while (Sensor_Trigger() == 0);
 
         //判断速度方向以判断坐标加减
