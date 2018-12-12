@@ -7,8 +7,8 @@ struct Data ErrorPara = {0, 0, 0};
 struct Data AnglePara = {0, 0, 0};
 
 //速度参数
-int16 XSpeed = 0, YSpeed = 0; //设定速度
-int16 XSpeedReal, YSpeedReal; //车体实际速度
+float XSpeed = 0, YSpeed = 0; //设定速度
+float XSpeedReal, YSpeedReal; //车体实际速度
 struct Data SpeedPara = {0, 0, 0};
 
 //全局坐标

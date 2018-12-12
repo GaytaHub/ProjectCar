@@ -25,8 +25,8 @@ enum
     White
 };
 
-extern short int XSpeed, YSpeed;
-extern short int XSpeedReal, YSpeedReal;
+extern float XSpeed, YSpeed;
+extern float XSpeedReal, YSpeedReal;
 extern float XPosition, YPosition;
 
 #endif

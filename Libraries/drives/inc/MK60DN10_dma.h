@@ -129,7 +129,7 @@ typedef enum      //DMA每次传输字节数
     DMA_BYTE1 = 0,
     DMA_BYTE2 = 1,
     DMA_BYTE4 = 2,
-    DMA_BYTE16 = 4
+    DMA_BYTE16 = 4,
 } DMA_BYTEn;
 
 typedef enum DMA_PORTx2BUFF_cfg

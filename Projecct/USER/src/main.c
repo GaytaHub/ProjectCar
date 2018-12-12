@@ -1,9 +1,9 @@
 #include "headfile.h"
 
 //Unit Test//
-#define MotorTest
+//#define MotorTest
 // #define SteeringTest
-// #define EncoderTest
+ #define EncoderTest
 // #define TrackTest
 // #define SensorTset
 // #define CoordinateTest

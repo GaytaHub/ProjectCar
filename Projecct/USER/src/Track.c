@@ -1,90 +1,68 @@
 #include "headfile.h"
 
-//Unit Test
-//#define DirectionTset
-
-#ifndef DirectionTset
- #define SpeedTest
- #define ErrorTest
- #define AngleTest
-#endif
+// #define SpeedTest
+#define ErrorTest
+#define AngleErrorTest
 
 //循迹函数
-void Track(char Axis, char Dir, char Reset)
+void Track(float XSpeed, float YSpeed, char Reset)
 {
-        float XError, YError, AngleError; //偏差
-        int16 LFRev, RFRev, LBRev, RBRev;           //轮子转速
-        int16 XSpeedSet, YSpeedSet;         //车体设定速度
-        int16 XErrorPwm, YErrorPwm;       //偏差输出
-        int16 XSpeedPwm, YSpeedPwm;         //速度输出
-        int16 AngleErrorPwm;                 //角度输出
-        int16 LFPwm, RFPwm, LBPwm, RBPwm;   //电机输出
+        float XError = 0.0, YError = 0.0, AngleError = 0.0;       //偏差
+        float LFRev = 0.0, RFRev = 0.0, LBRev = 0.0, RBRev = 0.0; //轮子转速
+        float XSpeedSet = 0.0, YSpeedSet = 0.0;                   //车体设定速度
+        float XErrorSet = 0.0, YErrorSet = 0.0;                   //偏差转化速度设定
+        float AngleErrorSet = 0.0;                                //角度偏差转速度设定
+        float LFSet = 0.0, RFSet = 0.0, LBSet = 0.0, RBSet = 0.0;
+        float LFPwm = 0.0, RFPwm = 0.0, LBPwm = 0.0, RBPwm = 0.0; //电机输出
 
         LFRev = LF_Encoder_Get();
         RFRev = RF_Encoder_Get();
         LBRev = LF_Encoder_Get();
         RBRev = RB_Encoder_Get();
-        XSpeedReal = +LFRev - RFRev + LBRev - RBRev;
-        YSpeedReal = -LFRev - RFRev + LBRev + RBRev;
+        XSpeedReal = +LFRev - RFRev + LBRev - RBRev; //车体X轴实际速度计算
+        YSpeedReal = -LFRev - RFRev + LBRev + RBRev; //车体Y轴实际速度计算
 
-        //速度（方向）正负设定
-        if (Dir == '+')
-        {
-                XSpeedSet = +XSpeed;
-                YSpeedSet = +YSpeed;
-        }
-        if (Dir == '-')
-        {
-                XSpeedSet = -XSpeed;
-                YSpeedSet = -YSpeed;
-        }
-
+#ifndef SpeedTest
         Image_Decompression(image_bin, image_dec[0]); //摄像头图像解压
 
-        if (Axis == 'X') //沿X轴循迹
+        if (XSpeed == 0) //沿Y轴循迹
+        {
+                //图像处理
+                XError = Error_Get('X', OV7725_W / 2);
+                AngleError = Angle_Get('Y');
+                //偏差转速度设定值
+                XErrorSet = X_Error_PD(XError, Reset);
+                AngleErrorSet = Angle_PD(AngleError, Reset);
+        }
+        if (YSpeed == 0) //沿X轴循迹
         {
                 YError = Error_Get('Y', OV7725_H / 2);
                 AngleError = Angle_Get('X');
-#ifdef SpeedTest
-                XSpeedPwm = X_Speed_PID(XSpeedSet, XSpeedReal, Reset);
+
+                YErrorSet = Y_Error_PD(YError, Reset);
+                AngleErrorSet = Angle_PD(AngleError, Reset);
+        }
 #endif
 #ifdef ErrorTest
-                YErrorPwm = Y_Error_PD(YError, Reset);
+        AngleErrorSet = 0.0;
 #endif
-#ifdef AngleTest
-                AngleErrorPwm = Angle_PD(AngleError, Reset);
-#endif
-        }
-        else if (Axis == 'Y')
-        {
-                XError = Error_Get('X', OV7725_W / 2);
-                AngleError = Angle_Get('Y');
-#ifdef SpeedTest
-                YSpeedPwm = Y_Speed_PID(YSpeedSet, YSpeedReal, Reset);
-#endif
-#ifdef ErrorTest
-                XErrorPwm = X_Error_PD(XError, Reset);
-#endif
-#ifdef AngleTest
-                AngleErrorPwm = Angle_PD(AngleError, Reset);
-#endif
-        }
-
-#ifdef DirectionTset
-        XSpeedPwm = 0;
-        YSpeedPwm = 0;
-        XErrorPwm = 0;
-        YErrorPwm = 0;
-        AngleErrorPwm = 0;
+#ifdef AngleErrorTest
+        XErrorSet = 0.0;
+        YErrorSet = 0.0;
 #endif
 
-        LFPwm = -XSpeedPwm - YErrorPwm + YSpeedPwm + XErrorPwm - AngleErrorPwm;
-        RFPwm = -XSpeedPwm + YErrorPwm - YSpeedPwm + XErrorPwm - AngleErrorPwm;
-        LBPwm = +XSpeedPwm - YErrorPwm + YSpeedPwm - XErrorPwm - AngleErrorPwm;
-        RBPwm = +XSpeedPwm + YErrorPwm - YSpeedPwm - XErrorPwm - AngleErrorPwm;
+        LFSet = -XSpeedSet + YSpeedSet + XErrorSet - YErrorSet + AngleErrorSet;
+        RFSet = -XSpeedSet - YSpeedSet + XErrorSet + YErrorSet + AngleErrorSet;
+        LBSet = +XSpeedSet + YSpeedSet - XErrorSet - YErrorSet + AngleErrorSet;
+        RBSet = +XSpeedSet - YSpeedSet - XErrorSet + YErrorSet + AngleErrorSet;
 
-        LF_Motor_Control(LFPwm);
-        RF_Motor_Control(RFPwm);
-        LB_Motor_Control(LBPwm);
-        RB_Motor_Control(RBPwm);
+        LFPwm=LF_Speed_PID(LFSet,LFRev,Reset);
+        RFPwm=LF_Speed_PID(RFSet,RFRev,Reset);
+        LBPwm=LF_Speed_PID(LBSet,LBRev,Reset);
+        RBPwm=LF_Speed_PID(RBSet,RBRev,Reset);
+
+        LF_Motor_Control((int16)LFPwm);
+        RF_Motor_Control((int16)RFPwm);
+        LB_Motor_Control((int16)LBPwm);
+        RB_Motor_Control((int16)RBPwm);
 }
