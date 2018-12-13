@@ -42,7 +42,7 @@ float X_Error_PD(float Error, char Reset)
 {
     static float LastError = 0.0;
     float Result;
-
+    
     if (Reset == True)
     {
         Result = 0;
@@ -53,7 +53,7 @@ float X_Error_PD(float Error, char Reset)
         Result = ErrorPara.P * Error + ErrorPara.D * (Error - LastError);
         LastError = Error;
     }
-
+    
     return Result;
 }
 
@@ -62,7 +62,7 @@ float Y_Error_PD(float Error, char Reset)
 {
     static float LastError = 0.0;
     float Result;
-
+    
     if (Reset == True)
     {
         Result = 0;
@@ -73,7 +73,7 @@ float Y_Error_PD(float Error, char Reset)
         Result = ErrorPara.P * Error + ErrorPara.D * (Error - LastError);
         LastError = Error;
     }
-
+    
     return Result;
 }
 
@@ -82,7 +82,7 @@ float Angle_PD(float AngleError, char Reset)
 {
     static float AngleLastError = 0.0;
     float Result;
-
+    
     if (Reset == True)
     {
         Result = 0;
@@ -93,28 +93,29 @@ float Angle_PD(float AngleError, char Reset)
         Result = AnglePara.P * AngleError + AnglePara.D * (AngleError - AngleLastError);
         AngleLastError = AngleError;
     }
-
+    
     return Result;
 }
 
 //左前轮速度控制PID
-#define IntegralRange 20   //积分范围
-#define AllIntegralRange 5 //全积分范围
+#define IntegralRange 40   //积分范围
+#define AllIntegralRange 4 //全积分范围
+
 
 float LF_Speed_PID(float Set, float Real, char Reset)
 {
     float index = 1.0;
-    float NewError, Result;
+    float  NewError,Result;
     static float LastError = 0.0, Integral = 0.0;
-
+    
     NewError = Set - Real;
     if (Reset == False)
     {
-        if (myabs(NewError > IntegralRange))
+        if (myabs(NewError) > IntegralRange)
         {
             index = 0.0;
         }
-        else if (myabs(NewError < AllIntegralRange))
+        else if (myabs(NewError) < AllIntegralRange)
         {
             index = 1.0;
             Integral += NewError;
@@ -133,7 +134,7 @@ float LF_Speed_PID(float Set, float Real, char Reset)
         Integral = 0.0;
         LastError = 0.0;
     }
-
+    
     return Result;
 }
 
@@ -143,15 +144,15 @@ float RF_Speed_PID(float Set, float Real, char Reset)
     float index = 1.0;
     float NewError, Result;
     static float LastError = 0.0, Integral = 0.0;
-
+    
     NewError = Set - Real;
     if (Reset == False)
     {
-        if (myabs(NewError > IntegralRange))
+        if (myabs(NewError) > IntegralRange)
         {
             index = 0.0;
         }
-        else if (myabs(NewError < AllIntegralRange))
+        else if (myabs(NewError) < AllIntegralRange)
         {
             index = 1.0;
             Integral += NewError;
@@ -170,8 +171,8 @@ float RF_Speed_PID(float Set, float Real, char Reset)
         Integral = 0.0;
         LastError = 0.0;
     }
-
-    return (int16)Result;
+    
+    return Result;
 }
 
 //左后轮控制pid
@@ -180,15 +181,15 @@ float LB_Speed_PID(float Set, float Real, char Reset)
     float index = 1.0;
     float NewError, Result;
     static float LastError = 0.0, Integral = 0.0;
-
+    
     NewError = Set - Real;
     if (Reset == False)
     {
-        if (myabs(NewError > IntegralRange))
+        if (myabs(NewError) > IntegralRange)
         {
             index = 0.0;
         }
-        else if (myabs(NewError < AllIntegralRange))
+        else if (myabs(NewError) < AllIntegralRange)
         {
             index = 1.0;
             Integral += NewError;
@@ -207,7 +208,7 @@ float LB_Speed_PID(float Set, float Real, char Reset)
         Integral = 0.0;
         LastError = 0.0;
     }
-
+    
     return Result;
 }
 
@@ -217,15 +218,15 @@ float RB_Speed_PID(float Set, float Real, char Reset)
     float index = 1.0;
     float NewError, Result;
     static float LastError = 0.0, Integral = 0.0;
-
+    
     NewError = Set - Real;
     if (Reset == False)
     {
-        if (myabs(NewError > IntegralRange))
+        if (myabs(NewError) > IntegralRange)
         {
             index = 0.0;
         }
-        else if (myabs(NewError < AllIntegralRange))
+        else if (myabs(NewError) < AllIntegralRange)
         {
             index = 1.0;
             Integral += NewError;
@@ -244,6 +245,6 @@ float RB_Speed_PID(float Set, float Real, char Reset)
         Integral = 0.0;
         LastError = 0.0;
     }
-
+    
     return Result;
 }

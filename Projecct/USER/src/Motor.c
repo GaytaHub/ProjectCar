@@ -22,13 +22,13 @@ void LF_Motor_Control(int16 duty)
     duty = (int16)limit(duty, FTM0_PRECISON);
     if (duty >= 0)
     {
-        ftm_pwm_duty(ftm0, ftm_ch0, duty);
-        ftm_pwm_duty(ftm0, ftm_ch1, 0);
+        ftm_pwm_duty(ftm0, ftm_ch1, duty);
+        ftm_pwm_duty(ftm0, ftm_ch0, 0);
     }
     else
     {
-        ftm_pwm_duty(ftm0, ftm_ch0, 0);
-        ftm_pwm_duty(ftm0, ftm_ch1, -duty);
+        ftm_pwm_duty(ftm0, ftm_ch1, 0);
+        ftm_pwm_duty(ftm0, ftm_ch0, -duty);
     }
 }
 

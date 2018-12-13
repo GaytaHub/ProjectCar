@@ -236,20 +236,20 @@ float Angle_Get(char mode)
 }
 
 //…„œÒÕ∑≤‚ ‘
-float XError, YError;
-float XAngleError, YAngleError;
-
-void Camera_Test(void)
-{
-   OLED_Init();
-   Camera_Init();
-   for (;;)
-   {
-      Image_Decompression(image_bin, image_dec[0]);
-      dis_bmp(60, 80, image_dec[0], 0x7F);
-      XError = Error_Get('X', OV7725_W / 2);
-      YError = Error_Get('Y', OV7725_H / 2);
-      XAngleError = Angle_Get('X');
-      YAngleError = Angle_Get('Y');
-   }
-}
+//float XError, YError;
+//float XAngleError, YAngleError;
+//
+//void Camera_Test(void)
+//{
+//   OLED_Init();
+//   Camera_Init();
+//   for (;;)
+//   {
+//      Image_Decompression(image_bin, image_dec[0]);
+//      dis_bmp(60, 80, image_dec[0], 0x7F);
+//      XError = Error_Get('X', OV7725_W / 2);
+//      YError = Error_Get('Y', OV7725_H / 2);
+//      XAngleError = Angle_Get('X');
+//      YAngleError = Angle_Get('Y');
+//   }
+//}

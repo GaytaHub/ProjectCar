@@ -74,13 +74,13 @@ int16 LB_Encoder_Get(void)
 int16 RB_Encoder_Get(void)
 {
     int16 Pulse = 0;
-    if (gpio_get(A17))
+    if (RBDirection)
     {
         Pulse = DMA_count_get(DMA_CH4);
     }
     else
     {
-        Pulse = -DMA_count_get(DMA_CH4);
+        Pulse = - DMA_count_get(DMA_CH4);
     }
     DMA_count_reset(DMA_CH4);
     return Pulse;
@@ -99,10 +99,10 @@ void Encoder_Test(void)
     EnableInterrupts;
     for (;;)
     {
-        //        LF_Motor_Control(300);
-        //        RF_Motor_Control(300);
-        //        LB_Motor_Control(300);
-        //        RB_Motor_Control(300);
+        LF_Motor_Control(300);
+        RF_Motor_Control(-300);
+        LB_Motor_Control(300);
+        RB_Motor_Control(-300);
         Dir0 = LFDirection;
         Dir1 = RFDirection;
         Dir2 = LBDirection;

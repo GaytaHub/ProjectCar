@@ -3,8 +3,8 @@
 //Unit Test//
 //#define MotorTest
 // #define SteeringTest
- #define EncoderTest
-// #define TrackTest
+// #define EncoderTest
+ #define TrackTest
 // #define SensorTset
 // #define CoordinateTest
 // #define CameraTest
@@ -41,15 +41,15 @@ int main(void)
 #ifdef TrackTest
     Motor_Init();
     Encoder_Init();
-    Camera_Init();
-    pit_init_ms(pit0, 10);
+    // Camera_Init();
+    pit_init_ms(pit0, 50);
     set_irq_priority(PIT0_IRQn, 2); //设置优先级,根据自己的需求设置
     enable_irq(PIT0_IRQn);          //打开pit0的中断开关
     EnableInterrupts;
 #endif
 
 #ifdef CoordinateCommandTest
-    pit_init_ms(pit0, 10);
+    pit_init_ms(pit0, 50);
     set_irq_priority(PIT0_IRQn, 2); //设置优先级,根据自己的需求设置
     enable_irq(PIT0_IRQn);          //打开pit0的中断开关
     EnableInterrupts;
@@ -70,10 +70,7 @@ void PIT0_IRQHandler(void)
 {
     PIT_FlAG_CLR(pit0);
 #ifdef TrackTest
-    Track('X', '+', False);
-    // Track('X', '-', False);
-    // Track('Y', '+', False);
-    // Track('Y', '-', False);
+    Track(30, 0, False);
 #endif
 
 #ifdef CoordinateCommandTest
