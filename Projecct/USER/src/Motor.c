@@ -14,6 +14,8 @@ void Motor_Init(void)
     //与非门控制下的pwm输出
     gpio_init(E5, GPO, 1);
     gpio_init(E6, GPO, 0);
+    gpio_init(E4, GPO, 1);
+    
 }
 
 //左前轮电机驱动
@@ -88,8 +90,8 @@ void Motor_Test(void)
     Motor_Init();
     for (;;)
     {
-        LF_Motor_Control(300);
-        RF_Motor_Control(300);
+        LF_Motor_Control(-300);
+        RF_Motor_Control(-300);
         LB_Motor_Control(300);
         RB_Motor_Control(300);
     }

@@ -198,7 +198,7 @@
 
 
 //配置摄像头参数
-#define OV7725_DMA_CH           DMA_CH0                         //定义摄像头的DMA采集通道
+#define OV7725_DMA_CH           DMA_CH2                         //定义摄像头的DMA采集通道
 #define OV7725_W                80                              //定义摄像头图像宽度
 #define OV7725_H                60                              //定义摄像头图像高度
 #define OV7725_SIZE             (OV7725_W * OV7725_H/8 )        //图像占用空间大小

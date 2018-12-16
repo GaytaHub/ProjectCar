@@ -16,7 +16,7 @@
 /*摄像头偏差符号定向：
 规定摄像头视野铅锤中线，在与X轴平行的黑线左侧时，偏差为正，从中线旋转到黑线得到的角，
 逆时针为正；摄像头视野水平中线，在与Y轴平行的黑线上方时，偏差为正，从中线旋转到黑线
-得到的角，逆时针为正*/
+得到的角，逆时针为负*/
 /*车体单方向运行时，轮子旋转方向(正负号表示编码器读取方向)：
 X+: LF——顺时针(-) RF——顺时针(-) LB——逆时针(+) RB——逆时针(+)
 Y+: LF——逆时针(+) RF——顺时针(-) LB——逆时针(+) RB——顺时针(-)
@@ -98,8 +98,8 @@ float Angle_PD(float AngleError, char Reset)
 }
 
 //左前轮速度控制PID
-#define IntegralRange 40   //积分范围
-#define AllIntegralRange 4 //全积分范围
+#define IntegralRange 20   //积分范围
+#define AllIntegralRange 3 //全积分范围
 
 
 float LF_Speed_PID(float Set, float Real, char Reset)

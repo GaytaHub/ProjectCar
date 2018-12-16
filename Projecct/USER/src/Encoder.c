@@ -10,10 +10,10 @@
 void Encoder_Init(void)
 {
     //编码器脉冲接口
-    DMA_count_Init(DMA_CH0, A5, 0x7FFF, DMA_rising_keepon);
-    DMA_count_Init(DMA_CH1, B9, 0x7FFF, DMA_rising_keepon);
-    DMA_count_Init(DMA_CH3, D0, 0x7FFF, DMA_rising_keepon);
-    DMA_count_Init(DMA_CH4, E2, 0x7FFF, DMA_rising_keepon);
+    DMA_count_Init(DMA_CH0, A5, 0x7FFF, DMA_falling_keepon);
+    DMA_count_Init(DMA_CH1, B9, 0x7FFF, DMA_falling_keepon);
+    DMA_count_Init(DMA_CH3, D0, 0x7FFF, DMA_falling_keepon);
+    DMA_count_Init(DMA_CH4, E2, 0x7FFF, DMA_falling_keepon);
 
     //编码器方向接口
     gpio_init(B10, GPI, 0);

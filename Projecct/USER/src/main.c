@@ -4,10 +4,10 @@
 //#define MotorTest
 // #define SteeringTest
 // #define EncoderTest
- #define TrackTest
+  #define TrackTest
 // #define SensorTset
 // #define CoordinateTest
-// #define CameraTest
+//#define CameraTest
 // #define CoordinateCommandTest
 
 int main(void)
@@ -41,9 +41,10 @@ int main(void)
 #ifdef TrackTest
     Motor_Init();
     Encoder_Init();
-    // Camera_Init();
-    pit_init_ms(pit0, 50);
-    set_irq_priority(PIT0_IRQn, 2); //设置优先级,根据自己的需求设置
+    Camera_Init();
+    OLED_Init();
+    pit_init_ms(pit0, 20);
+    set_irq_priority(PIT0_IRQn, 1); //设置优先级,根据自己的需求设置
     enable_irq(PIT0_IRQn);          //打开pit0的中断开关
     EnableInterrupts;
 #endif
@@ -61,7 +62,7 @@ int main(void)
 
     for (;;)
     {
-        ;
+        dis_bmp(60, 80, image_dec[0], 0x7F);
     }
 }
 
@@ -70,32 +71,14 @@ void PIT0_IRQHandler(void)
 {
     PIT_FlAG_CLR(pit0);
 #ifdef TrackTest
-    Track(30, 0, False);
+    Track(6, 0, False);
 #endif
 
 #ifdef CoordinateCommandTest
     Coordinate_Command(3, 4);
 #endif
-    // static int16 Command = 0;
-    // switch(Command)
-    // {
-    //     case 0:
-    //     {
-    //         ;
-    //         Command ++;
-    //     }break;
-    //     case 1:
-    //     {
-    //         ;
-    //         Command ++;
-    //     }break;
-    //     case 2:
-    //     {
-    //         ;
-    //         Command ++;
-    //     }
-    // }
 }
+
 
 //PORTC中断标志位清除
 void PORTC_IRQHandler(void)
@@ -103,14 +86,16 @@ void PORTC_IRQHandler(void)
     //清除中断标志第一种方法直接操作寄存器，每一位对应一个引脚
     //PORTC->ISFR = 0xffffffff;
     //使用我们编写的宏定义清除发生中断的引脚
-    //PORTC_FLAG_CLR(C1);
+//    PORTC_FLAG_CLR(C1);
 
     //此中断的标志位在ov7725_vsync中清除，因此不需要再这里清除
     ov7725_vsync();
 }
 
-//DMA0中断清除
-void DMA0_IRQHandler(void)
+
+//DMA2中断清除
+void DMA2_IRQHandler(void)
 {
-    DMA_IRQ_CLEAN(DMA_CH0);
+    ov7725_dma();
 }
+

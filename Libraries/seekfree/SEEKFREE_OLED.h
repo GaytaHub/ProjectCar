@@ -37,10 +37,10 @@
 
 
 //----ºê¶¨ÒåOLEDÒý½Å----	 
-#define  OLED_SCL_PIN	D7
-#define  OLED_SDA_PIN	D6
-#define  OLED_RST_PIN	D5
-#define  OLED_DC_PIN	D4
+#define  OLED_SCL_PIN	B20
+#define  OLED_SDA_PIN	B21
+#define  OLED_RST_PIN	B22
+#define  OLED_DC_PIN	B23
 //#define  OLED_CS_PIN	E4
 
 
