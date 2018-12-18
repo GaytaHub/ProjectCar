@@ -27,22 +27,29 @@ A-: 全为逆时针(+)*/
 /*X、Y轴速度 即车体沿X、Y轴的移动速度(车体沿X、Y轴正方向行驶为正，设定值为某一固定的正值) 
 XSpeedSet = Constant,YSpeedSet = Constant*/
 /*偏差 即车体X、Y轴（交点由摄像头所看位置确定）到黑线的垂直距离：
-(X_Error:Y轴在黑线右侧为正，需沿X-移动消除偏差，Y_Error:X轴在黑线左侧为正,需沿Y-移动消除偏差，设定值为0)
+(X_Error:视野竖直中线在黑线左侧为正，车子需沿全局坐标系Y-移动消除偏差，设定值为0
+Y_Error:视野水平中线在黑线上侧为正,车子需沿全局坐标系X-移动消除偏差，设定值为0)
 XErrorSet = PD(XError), YErrorSet = PD(YError)*/
 /*角度 即车体X、Y轴与黑线的夹角(从X、Y轴转动到黑线得到的夹角，逆时针为正，需沿顺时针旋转消除偏差，设定值为0) 
 AngleSet = PD(Angle)*/
-/*各个轮子的设定值计算：
-LFSet = - XSpeedSet + YSpeedSet + XErrorSet - YErrorSet + AngleSet
+//以下仅供参考
+/*各个轮子的设定值计算（麦克纳姆轮）：
+LFSet = - XSpeedSet + YSpeedSet - XErrorSet + YErrorSet + AngleSet
 RFSet = - XSpeedSet - YSpeedSet + XErrorSet + YErrorSet + AngleSet
 LBSet = + XSpeedSet + YSpeedSet - XErrorSet - YErrorSet + AngleSet
-RBSet = + XSpeedSet - YSpeedSet - XErrorSet + YErrorSet + AngleSet*/
+RBSet = + XSpeedSet - YSpeedSet + XErrorSet - YErrorSet + AngleSet
+（万向轮,各个轮子位置以坐标系为参考）：
+XPositiveSet = -YSpeedSet + XErrorSet - AngleErrorSet;
+YPositiveSet = +XSpeedSet + YErrorSet - AngleErrorSet;
+XNegativeSet = +YSpeedSet - XErrorSet - AngleErrorSet;
+YNegativeSet = -XSpeedSet - YErrorSet - AngleErrorSet;*/
 
-//X轴偏差控制PID
+/******************X轴偏差控制PID**********************/
 float X_Error_PD(float Error, char Reset)
 {
     static float LastError = 0.0;
     float Result;
-    
+
     if (Reset == True)
     {
         Result = 0;
@@ -53,16 +60,16 @@ float X_Error_PD(float Error, char Reset)
         Result = ErrorPara.P * Error + ErrorPara.D * (Error - LastError);
         LastError = Error;
     }
-    
+
     return Result;
 }
 
-//Y轴偏差控制
+/*******************Y轴偏差控制*********************/
 float Y_Error_PD(float Error, char Reset)
 {
     static float LastError = 0.0;
     float Result;
-    
+
     if (Reset == True)
     {
         Result = 0;
@@ -73,16 +80,16 @@ float Y_Error_PD(float Error, char Reset)
         Result = ErrorPara.P * Error + ErrorPara.D * (Error - LastError);
         LastError = Error;
     }
-    
+
     return Result;
 }
 
-//角度控制PID
+/*******************角度控制PID*********************/
 float Angle_PD(float AngleError, char Reset)
 {
     static float AngleLastError = 0.0;
     float Result;
-    
+
     if (Reset == True)
     {
         Result = 0;
@@ -93,21 +100,20 @@ float Angle_PD(float AngleError, char Reset)
         Result = AnglePara.P * AngleError + AnglePara.D * (AngleError - AngleLastError);
         AngleLastError = AngleError;
     }
-    
+
     return Result;
 }
 
-//左前轮速度控制PID
+/******************左前轮速度控制PID**********************/
 #define IntegralRange 20   //积分范围
 #define AllIntegralRange 3 //全积分范围
 
-
-float LF_Speed_PID(float Set, float Real, char Reset)
+float XPositive_Speed_PID(float Set, float Real, char Reset)
 {
     float index = 1.0;
-    float  NewError,Result;
+    float NewError, Result;
     static float LastError = 0.0, Integral = 0.0;
-    
+
     NewError = Set - Real;
     if (Reset == False)
     {
@@ -134,17 +140,17 @@ float LF_Speed_PID(float Set, float Real, char Reset)
         Integral = 0.0;
         LastError = 0.0;
     }
-    
+
     return Result;
 }
 
-//右前轮控制PID
-float RF_Speed_PID(float Set, float Real, char Reset)
+/*******************右前轮控制PID*********************/
+float YPositive_Speed_PID(float Set, float Real, char Reset)
 {
     float index = 1.0;
     float NewError, Result;
     static float LastError = 0.0, Integral = 0.0;
-    
+
     NewError = Set - Real;
     if (Reset == False)
     {
@@ -171,17 +177,17 @@ float RF_Speed_PID(float Set, float Real, char Reset)
         Integral = 0.0;
         LastError = 0.0;
     }
-    
+
     return Result;
 }
 
-//左后轮控制pid
-float LB_Speed_PID(float Set, float Real, char Reset)
+/******************左后轮控制pid**********************/
+float XNegative_Speed_PID(float Set, float Real, char Reset)
 {
     float index = 1.0;
     float NewError, Result;
     static float LastError = 0.0, Integral = 0.0;
-    
+
     NewError = Set - Real;
     if (Reset == False)
     {
@@ -208,17 +214,17 @@ float LB_Speed_PID(float Set, float Real, char Reset)
         Integral = 0.0;
         LastError = 0.0;
     }
-    
+
     return Result;
 }
 
-//右后轮速度控制pid
-float RB_Speed_PID(float Set, float Real, char Reset)
+/******************右后轮速度控制pid**********************/
+float YNegative_Speed_PID(float Set, float Real, char Reset)
 {
     float index = 1.0;
     float NewError, Result;
     static float LastError = 0.0, Integral = 0.0;
-    
+
     NewError = Set - Real;
     if (Reset == False)
     {
@@ -245,6 +251,6 @@ float RB_Speed_PID(float Set, float Real, char Reset)
         Integral = 0.0;
         LastError = 0.0;
     }
-    
+
     return Result;
 }

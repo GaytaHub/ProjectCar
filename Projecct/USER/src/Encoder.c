@@ -1,12 +1,12 @@
 #include "headfile.h"
 
 //编码器方向读取接口
-#define LFDirection gpio_get(B10)
-#define RFDirection gpio_get(B11)
-#define LBDirection gpio_get(B16)
-#define RBDirection gpio_get(B17)
+#define XPositiveDirection gpio_get(B10)
+#define YPositiveDirection gpio_get(B11)
+#define XNegativeDirection gpio_get(B16)
+#define YNegativeDirection gpio_get(B17)
 
-//编码器初始化
+/*********************编码器初始化***********************/
 void Encoder_Init(void)
 {
     //编码器脉冲接口
@@ -22,11 +22,11 @@ void Encoder_Init(void)
     gpio_init(B17, GPI, 0);
 }
 
-//左前轮编码器读取
-int16 LF_Encoder_Get(void)
+/*********************X+方向轮子编码器读取***********************/
+int16 XPositive_Encoder_Get(void)
 {
     int16 Pulse = 0;
-    if (LFDirection)
+    if (XPositiveDirection)
     {
         Pulse = DMA_count_get(DMA_CH0);
     }
@@ -38,11 +38,11 @@ int16 LF_Encoder_Get(void)
     return Pulse;
 }
 
-//右前轮编码器读取
-int16 RF_Encoder_Get(void)
+/**********************Y+方向轮编码器读取**********************/
+int16 YPositive_Encoder_Get(void)
 {
     int16 Pulse = 0;
-    if (RFDirection)
+    if (YPositiveDirection)
     {
         Pulse = DMA_count_get(DMA_CH1);
     }
@@ -54,11 +54,11 @@ int16 RF_Encoder_Get(void)
     return Pulse;
 }
 
-//左后轮编码器读取
-int16 LB_Encoder_Get(void)
+/******************X-方向轮编码器读取**************************/
+int16 XNegative_Encoder_Get(void)
 {
     int16 Pulse = 0;
-    if (LBDirection)
+    if (XNegativeDirection)
     {
         Pulse = DMA_count_get(DMA_CH3);
     }
@@ -70,11 +70,11 @@ int16 LB_Encoder_Get(void)
     return Pulse;
 }
 
-//右后轮编码器读取
-int16 RB_Encoder_Get(void)
+/********************Y-方向轮编码器读取************************/
+int16 YNegative_Encoder_Get(void)
 {
     int16 Pulse = 0;
-    if (RBDirection)
+    if (YNegativeDirection)
     {
         Pulse = DMA_count_get(DMA_CH4);
     }
@@ -86,7 +86,7 @@ int16 RB_Encoder_Get(void)
     return Pulse;
 }
 
-//编码器测试
+/******************编码器测试**************************/
 int16 Pulse0, Pulse1, Pulse2, Pulse3;
 int8 Dir0, Dir1, Dir2, Dir3;
 void Encoder_Test(void)
@@ -99,18 +99,18 @@ void Encoder_Test(void)
     EnableInterrupts;
     for (;;)
     {
-        LF_Motor_Control(300);
-        RF_Motor_Control(-300);
-        LB_Motor_Control(300);
-        RB_Motor_Control(-300);
-        Dir0 = LFDirection;
-        Dir1 = RFDirection;
-        Dir2 = LBDirection;
-        Dir3 = RBDirection;
-        Pulse0 = LF_Encoder_Get();
-        Pulse1 = RF_Encoder_Get();
-        Pulse2 = LB_Encoder_Get();
-        Pulse3 = RB_Encoder_Get();
+        XPositive_Motor_Control(300);
+        YPositive_Motor_Control(-300);
+        XNegative_Motor_Control(300);
+        YNegative_Motor_Control(-300);
+        Dir0 = XPositiveDirection;
+        Dir1 = YPositiveDirection;
+        Dir2 = XNegativeDirection;
+        Dir3 = YNegativeDirection;
+        Pulse0 = XPositive_Encoder_Get();
+        Pulse1 = YPositive_Encoder_Get();
+        Pulse2 = XNegative_Encoder_Get();
+        Pulse3 = YNegative_Encoder_Get();
         systick_delay_ms(50);
     }
 }

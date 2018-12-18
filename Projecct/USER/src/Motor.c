@@ -1,6 +1,6 @@
 #include "headfile.h"
 
-//电机初始化
+/*******************电机初始化**********************/
 void Motor_Init(void)
 {
     //电机初始化
@@ -15,11 +15,10 @@ void Motor_Init(void)
     gpio_init(E5, GPO, 1);
     gpio_init(E6, GPO, 0);
     gpio_init(E4, GPO, 1);
-    
 }
 
-//左前轮电机驱动
-void LF_Motor_Control(int16 duty)
+/****************X+方向轮电机驱动*******************/
+void XPositive_Motor_Control(int16 duty)
 {
     duty = (int16)limit(duty, FTM0_PRECISON);
     if (duty >= 0)
@@ -34,8 +33,8 @@ void LF_Motor_Control(int16 duty)
     }
 }
 
-//右前轮电机驱动
-void RF_Motor_Control(int16 duty)
+/*****************Y+方向轮电机驱动******************/
+void YPositive_Motor_Control(int16 duty)
 {
     duty = (int16)limit(duty, FTM0_PRECISON);
     if (duty >= 0)
@@ -50,8 +49,8 @@ void RF_Motor_Control(int16 duty)
     }
 }
 
-//左后轮电机驱动
-void LB_Motor_Control(int16 duty)
+/******************X-方向轮电机驱动********************/
+void XNegative_Motor_Control(int16 duty)
 {
     duty = (int16)limit(duty, FTM0_PRECISON);
     if (duty >= 0)
@@ -66,8 +65,8 @@ void LB_Motor_Control(int16 duty)
     }
 }
 
-//右后轮电机驱动
-void RB_Motor_Control(int16 duty)
+/*******************Y-方向轮电机驱动*******************/
+void YNegative_Motor_Control(int16 duty)
 {
     duty = (int16)limit(duty, FTM0_PRECISON);
     if (duty >= 0)
@@ -84,15 +83,15 @@ void RB_Motor_Control(int16 duty)
     }
 }
 
-//Motor Test
+/*********************Motor Test*****************/
 void Motor_Test(void)
 {
     Motor_Init();
     for (;;)
     {
-        LF_Motor_Control(-300);
-        RF_Motor_Control(-300);
-        LB_Motor_Control(300);
-        RB_Motor_Control(300);
+        XPositive_Motor_Control(300);
+        XNegative_Motor_Control(300);
+        YPositive_Motor_Control(300);
+        YNegative_Motor_Control(300);
     }
 }

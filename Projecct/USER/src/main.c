@@ -1,13 +1,13 @@
 #include "headfile.h"
 
 //Unit Test//
-//#define MotorTest
+// #define MotorTest
 // #define SteeringTest
 // #define EncoderTest
-  #define TrackTest
+ #define TrackTest
 // #define SensorTset
 // #define CoordinateTest
-//#define CameraTest
+// #define CameraTest
 // #define CoordinateCommandTest
 
 int main(void)
@@ -67,11 +67,37 @@ int main(void)
 }
 
 //中断服务函数
+int cnt = 0;
+int flag = 1;
 void PIT0_IRQHandler(void)
 {
     PIT_FlAG_CLR(pit0);
 #ifdef TrackTest
-    Track(6, 0, False);
+//    if(flag ==1)
+//    {
+    Track(10, 0, False);
+//    cnt++;
+//    if(cnt==200)
+//        flag=2;
+//    }
+//    if(flag == 2)
+//    {
+//    Track(0,0,True);
+//    Track(0,0,False);
+//    cnt++;
+//    if(cnt==210)
+//        flag=3;
+//    }
+//    if(flag ==3)
+//    {
+//        Track(0,15,False);
+//        cnt++;
+//        if(cnt==600)
+//        {
+//            cnt=0;
+//            flag=1;
+//        }
+//    }
 #endif
 
 #ifdef CoordinateCommandTest

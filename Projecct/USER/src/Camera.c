@@ -1,206 +1,261 @@
 #include "headfile.h"
 
-//摄像头初始化
+/**********摄像头初始化**************/
 void Camera_Init(void)
 {
    ov7725_init();
 }
-//x 横向扫描(对应竖线) y 纵向扫描(对应横线) 获取偏差（直线与屏幕中央的偏差）
-//x 横向扫描(对应竖线) y 纵向扫描(对应横线) 获取斜线斜率大小
-//两个输入量 coordinate（'x'或'y'对应不同坐标） value（offset或theta 对应偏差提取与斜率提取）
-float Camera_Get(char Axis, char Mode)
+
+/*************从左向右扫描得到中线值**************/
+float LeftToRightMidline[OV7725_H] = {0}; //中线提取值
+void LeftToRight_Scan(void)
 {
-   char W, H;                           //宽度W 高度H
-   char Flag = 0, Position1, Position2; //Position 暂存边界值
-   float TransverseErrX[OV7725_H];       //x 与OV7725_W/2的偏差
-   char TransverseErrY[OV7725_W];       //y 与OV7725_H/2的偏差
-   float LinearErrX[OV7725_H];           //x向直线偏差
-   char LinearErrY[OV7725_W];           //y向直线偏差
-   float SumOffset = 0.0;               //偏差累加和
-   float SumTheta = 0;                  //计算斜率时的各斜率累加和
-   float offset;                        //偏差 返回值
-   float tantheta;                      //直线斜率  返回值
+   int LeftBorder[OV7725_H];  //横向扫描左边界
+   int RightBorder[OV7725_H]; //横向扫描右边界
+   int Width = 0, Height = 0; //循环变量
+   int First = 0;             //双线左边界扫描标志位
+   int Border1, Border2;      //边界暂存值
 
-   uint8 ImageLBorder[OV7725_H];
-   uint8 ImageRBorder[OV7725_H]; //横向扫描左右边界
-   uint8 ImageUBorder[OV7725_W];
-   uint8 ImageDBorder[OV7725_W]; //纵向扫描上下边界
-   float ImageLineX[OV7725_H];   //x向中线提取
-   uint8 ImageLineY[OV7725_W];   //y向中线提取
-
-   //优先确定坐标系
-   if (Axis == 'X')
+   //获取左右边界
+   //从上向下扫描
+   for (Height = 0; Height < OV7725_H; Height++)
    {
-      //获取左右边界
-      for (H = OV7725_H - 1; H >= 0; H--)
+      //每次从左向右扫描前重置白线检测标志
+      //扫描前重置边界暂存值
+      First = False;
+      Border1 = 0;
+      Border2 = 0;
+#define LeftToRightScanRange 8 //图像腐蚀范围
+      //从左向右扫描
+      for (Width = LeftToRightScanRange; Width < OV7725_W - 1 - LeftToRightScanRange; Width++)
       {
-         for (W = 20; W < OV7725_W - 20; W++)
+         //白跳黑
+         if (image_dec[Height][Width] == 255 && First == False)
          {
-            if (image_dec[H][W] == 255)
+            if ((image_dec[Height][Width + 1] == 0))
             {
-               if ((image_dec[H][W + 1] == 0))
-               {
-                  Flag = 1;
-                  Position1 = W; //白跳黑 左边界存储
-               }
+               First = True;    //第一次扫到白跳黑边界
+               Border1 = Width; //边界存储
             }
-            if ((image_dec[H][W] == 0) && (Flag == 1))
+         }
+         //黑跳白
+         if (image_dec[Height][Width] == 0) //储存所有扫到的黑跳白边界
+         {
+            if (image_dec[Height][Width + 1] == 255)
             {
-               if (image_dec[H][W + 1] == 255)
-               {
-                  Flag = 2;
-                  Position2 = W + 1; //黑跳白 右边界存储
-               }
-
-               if (((Position2 - Position1) < 20) && ((Position2 - Position1) > 1))
-               {
-                  ImageLBorder[H] = Position1;
-                  ImageRBorder[H] = Position2;
-               }
-            }
-            if (((Position1 - Position2) < 15) && ((Position1 - Position2) > 3) && (Flag == 2))
-            {
-               Flag = 0;
-               ImageRBorder[H] = Position1;
-               ImageLBorder[H] = Position2;
+               Border2 = Width; //边界存储
             }
          }
       }
-
-      //由边界得出中线位置
-      for (H = 0; H < OV7725_H; H++)
-      {
-         ImageLineX[H] = (ImageLBorder[H] + ImageRBorder[H]) / 2.0;
-         TransverseErrX[H] = ImageLineX[H] - OV7725_W / 2.0;
-      }
-      //中线滤波
-      for (H = 1; H < OV7725_H; H++)
-      {
-         if (myabs(ImageLineX[H] - ImageLineX[H - 1]) > 3)
-            ImageLineX[H] = ImageLineX[H - 1];
-      }
-
-      //然后确定被提取量
-      if (Mode == 'E')
-      {
-         //计算偏差
-         for (H = 0; H < 60; H++)
-         {
-            SumOffset += TransverseErrX[H];
-         }
-         offset = SumOffset / 60;
-         return offset;
-      }
-
-      if (Mode == 'T')
-      {
-         //计算斜率
-         for (H = 0; H < OV7725_H; H++)
-         {
-            LinearErrX[H] = ImageLineX[H] - ImageLineX[OV7725_H - 1];
-         }
-
-         for (H = 5; H < OV7725_H - 5; H++)
-         {
-            if ((LinearErrX[H] < 30) && (LinearErrX[H] > -30))
-               SumTheta += LinearErrX[OV7725_H - H] / (H * 1.0);
-         }
-         tantheta = SumTheta;
-         return tantheta;
-      }
+      LeftBorder[Height] = Border1;
+      RightBorder[Height] = Border2;
    }
-
-   else if (Axis == 'Y')
+   //由边界得出中线位置,从上向下计算
+   for (Height = 0; Height < OV7725_H; Height++)
    {
-      //获取上下边界
-      for (W = 0; W < OV7725_W; W++)
-      {
-         for (H = 0; H < OV7725_H - 1; H++)
-         {
-            if (image_dec[H][W] == 255)
-            {
-               if (image_dec[H + 1][W] == 0)
-               {
-                  Flag = 1;
-                  Position1 = H; //白跳黑 上边界存储
-               }
-            }
-            if ((image_dec[H][W] == 0) && (Flag == 1))
-            {
-               if (image_dec[H + 1][W] == 255)
-               {
-                  Flag = 2;
-                  Position2 = H + 1; //黑跳白 下边界存储
-               }
-
-               if (((Position2 - Position1) < 20) && ((Position2 - Position1) > 3))
-               {
-                  ImageUBorder[W] = Position1;
-                  ImageDBorder[W] = Position2;
-               }
-            }
-            if (((Position1 - Position2) < 15) && ((Position1 - Position2) > 0) && (Flag == 2))
-            {
-               Flag = 0;
-               ImageDBorder[W] = Position1;
-               ImageUBorder[W] = Position2;
-            }
-         }
-      }
-
-      if (Mode == 'E')
-      {
-         //计算偏差
-         for (W = 0; W < OV7725_W; W++)
-         {
-            ImageLineY[W] = (int)(ImageUBorder[W] + ImageDBorder[W]) / 2; //由边界得出中线位置
-            TransverseErrY[W] = ImageLineY[W] - OV7725_H / 2;
-         }
-         for (W = 20; W < 60; W++)
-         {
-            SumOffset += TransverseErrY[W];
-         }
-         offset = SumOffset / 40;
-         return offset;
-      }
-
-      if (Mode == 'T')
-      {
-         //斜率计算
-         for (W = 0; W < OV7725_W; W++)
-         {
-            ImageLineY[W] = (int)(ImageUBorder[W] + ImageDBorder[W]) / 2; //由边界得出中线位置
-         }
-
-         for (W = 0; W < OV7725_W; W++)
-         {
-            LinearErrY[W] = ImageLineY[W] - ImageLineY[0];
-         }
-
-         for (W = 20; W < 40; W = W + 2)
-         {
-            if ((LinearErrY[W] < 30) && (LinearErrY[W] > -30))
-               SumTheta += LinearErrY[W] / (W * 1.0);
-         }
-         tantheta = SumTheta * 10;
-         return tantheta;
-      }
+      LeftToRightMidline[Height] = (LeftBorder[Height] + RightBorder[Height]) / 2.0;
    }
-   return 0;
+   //中线滤波
+   for (Height = 1; Height < OV7725_H; Height++)
+   {
+      if (myabs(LeftToRightMidline[Height] - LeftToRightMidline[Height - 1]) > 2.0)
+         LeftToRightMidline[Height] = LeftToRightMidline[Height - 1] * 0.8 + LeftToRightMidline[Height] * 0.2;
+   }
 }
 
-//摄像头测试程序
+/**************************从上向下扫描得到中线值***************************/
+float UpToDownMidline[OV7725_W] = {0}; //中线提取值
+void UpToDown_Scan(void)
+{
+   int UpBorder[OV7725_W];    //横向扫描左边界
+   int DownBorder[OV7725_W];  //横向扫描右边界
+   int Width = 0, Height = 0; //循环变量
+   int Border1, Border2;      //边界暂存值
+
+   //获取上下边界
+   //从左向右扫描
+   for (Width = 0; Width < OV7725_W; Width++)
+   {
+      //扫描前重置边界暂存值
+      Border1 = 0;
+      Border2 = 0;
+#define UpToDownRange 12 //图像腐蚀范围
+      //从上向下扫描
+      for (Height = UpToDownRange; Height < OV7725_H - 1 - UpToDownRange; Height++)
+      {
+         //白跳黑
+         if (image_dec[Height][Width] == 255)
+         {
+            if ((image_dec[Height + 1][Width] == 0))
+            {
+               Border1 = Height; //边界存储
+            }
+         }
+         //黑跳白
+         if (image_dec[Height][Width] == 0) //储存所有扫到的黑跳白边界
+         {
+            if (image_dec[Height + 1][Width] == 255)
+            {
+               Border2 = Height; //边界存储
+            }
+         }
+      }
+      UpBorder[Width] = Border1;
+      DownBorder[Width] = Border2;
+   }
+   //由边界得出中线位置,从左向右计算
+   for (Width = 0; Width < OV7725_W; Width++)
+   {
+      UpToDownMidline[Width] = (UpBorder[Width] + DownBorder[Width]) / 2.0;
+   }
+   //中线低通滤波
+   for (Width = 1; Width < OV7725_W; Width++)
+   {
+      if (myabs(UpToDownMidline[Width] - UpToDownMidline[Width - 1]) > 1.5)
+         UpToDownMidline[Width] = UpToDownMidline[Width - 1] * 0.7 + UpToDownMidline[Width] * 0.3;
+   }
+}
+
+/*********************连续段中线滤波算法***************************/
+float FilteringMidlineLength, FilteringMidlineHead, FilteringMidlineTail;
+int Height, i = 1; //循环变量
+float LineHead[60] = {0}, LineTail[60] = {0}, Length[60] = {0};
+float Head = 0, Tail = 0;
+void Midline_filter(void)
+{
+
+   for (Height = 0; Height < OV7725_H - 1; Height++)
+   {
+      if (myabs(LeftToRightMidline[Height] - LeftToRightMidline[Height - 1]) > 2)
+      {
+         Tail = Height;           //截取尾
+         LineHead[i] = Head;      //记录头
+         LineTail[i] = Tail;      //记录尾
+         Length[i] = Tail - Head; //记录长度
+         Head = Height;           //重置头
+         i++;
+         if (i == 60)
+            i = 0;
+      }
+   }
+   for (i = 1; i < 6; i++)
+   {
+      //最大连续段记录
+      if (Length[i] > Length[i - 1])
+      {
+         FilteringMidlineLength = Length[i];
+         FilteringMidlineHead = LineHead[i];
+         FilteringMidlineTail = LineTail[i];
+      }
+   }
+}
+
+/**********************误差提取***************************/
+float Error_Get(char Axis, char Mode)
+{
+   int Width = 0, Height = 0;                                             //循环变量
+   float LeftToRightError[OV7725_H] = {0}, UpToDownError[OV7725_W] = {0}; //从左向右扫描时的误差,从上向下扫描时的误差
+   float SumDownReferencePoint = 0, SumUpReferencePoint = 0;              //从左向右扫描时参考点位置总和
+   float SumLeftReferencePoint = 0, SumRightReferencePoint = 0;           //从上向下扫描时参考点位置总和
+   float DownReferencePoint = 0, UpReferencePoint = 0;                    //从左向右扫描时参考点位置
+   float LeftReferencePoint = 0, RightReferencePoint = 0;                 //从上向下扫描时参考点位置
+   float SumError = 0.0;                                                  //总误差
+   float Result;                                                          //结果
+
+   //沿X轴移动时误差提取
+   if (Axis == 'X')
+   {
+      //提取误差量
+      if (Mode == 'E')
+      {
+         //计算偏差
+         for (Height = 0; Height < OV7725_H; Height++)
+         {
+            LeftToRightError[Height] = LeftToRightMidline[Height] - OV7725_W / 2.0; //计算与视野中线的误差，为满足极性要求，用黑线减去中线
+            SumError += LeftToRightError[Height];
+         }
+         Result = SumError / OV7725_H;
+
+         return Result;
+      }
+      //提取偏移角
+      else if (Mode == 'T')
+      {
+#define ReferrncePointNum 6
+         //计算下参考点位置(以下方N个点为参考)
+         for (Height = 0; Height < ReferrncePointNum; Height++)
+         {
+            SumUpReferencePoint += LeftToRightMidline[Height];
+         }
+         //计算上参考点位置
+         for (Height = OV7725_H - 1; Height >= OV7725_H - ReferrncePointNum; Height--)
+         {
+            SumDownReferencePoint += LeftToRightMidline[Height];
+         }
+         UpReferencePoint = SumUpReferencePoint / ReferrncePointNum;                              //求取上参考点平均位置
+         DownReferencePoint = SumDownReferencePoint / ReferrncePointNum;                          //求取下参考点平均位置
+         Result = (DownReferencePoint - UpReferencePoint) / (OV7725_H - ReferrncePointNum) * 1.0; //为满足摄像头角度极性设定，用下减上
+
+         return Result * 10;
+      }
+   }
+   //沿Y轴移动时误差提取
+   else if (Axis == 'Y')
+   {
+      //提取误差量
+      if (Mode == 'E')
+      {
+         //计算偏差
+         for (Width = 0; Width < OV7725_W; Width++)
+         {
+            UpToDownError[Width] = OV7725_H / 2.0 - UpToDownMidline[Width]; //计算黑线与视野中线的误差，为满足极性要求用中线减去黑线
+            SumError += UpToDownError[Width];
+         }
+         Result = SumError / OV7725_W;
+
+         return Result;
+      }
+      //提取偏移角
+      else if (Mode == 'T')
+      {
+         //计算左参考点位置(以左边N个点为参考)
+         for (Width = 0; Width < ReferrncePointNum; Width++)
+         {
+            SumLeftReferencePoint += UpToDownMidline[Width];
+         }
+         //计算右参考点位置
+         for (Width = OV7725_W - 1; Width >= OV7725_W - ReferrncePointNum; Width--)
+         {
+            SumRightReferencePoint += UpToDownMidline[Width];
+         }
+         LeftReferencePoint = SumLeftReferencePoint / ReferrncePointNum;                             //求取上参考点平均位置
+         RightReferencePoint = SumRightReferencePoint / ReferrncePointNum;                           //求取下参考点平均位置
+         Result = (LeftReferencePoint - RightReferencePoint) / (OV7725_W - ReferrncePointNum) * 1.0; //为满足极性要求，用左减右
+
+         return Result * 10;
+      }
+   }
+
+   return 0;    //没有选择时返回0
+}
+
+/********************************摄像头测试程序***************************/
 void Camera_Test(void)
 {
-   float XError, YError;
-   float XTheta, YTheta;
+   static float XError, YError;
+   static float XTheta, YTheta;
    Camera_Init();
    OLED_Init();
    for (;;)
    {
       Image_Decompression(image_bin, image_dec[0]); //摄像头图像解压
       dis_bmp(60, 80, image_dec[0], 0x7F);
-      XError = Camera_Get('X', 'E');
-      XTheta = Camera_Get('X', 'T');
+      LeftToRight_Scan();           //扫描
+      UpToDown_Scan();
+      Midline_filter();             //中线滤波
+      XError = Error_Get('X', 'E'); //误差量读取
+      YError = Error_Get('Y', 'E');
+      XTheta = Error_Get('X', 'T'); //偏移角读取
+      YTheta = Error_Get('Y', 'T');
    }
 }

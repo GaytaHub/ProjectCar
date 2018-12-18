@@ -1,10 +1,10 @@
 #include "headfile.h"
 
 //偏差参数
-struct Data ErrorPara = {2.0, 0, 0.1};
+struct Data ErrorPara = {0.8, 0, 0.0};
 
 //角度参数
-struct Data AnglePara = {3.0, 0, 0.1};
+struct Data AnglePara = {1.5, 0, 0.0};
 
 //速度参数
 float XSpeed = 0, YSpeed = 0; //设定速度
